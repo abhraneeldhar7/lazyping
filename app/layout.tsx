@@ -6,6 +6,8 @@ import { AnimatedThemeToggler } from "@/components/ui/animated-theme-toggler";
 import {
   ClerkProvider
 } from '@clerk/nextjs'
+import { Toaster } from "@/components/ui/sonner";
+import FooterComponent from "@/components/footer";
 
 
 const geistSans = Geist({
@@ -32,11 +34,14 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en" suppressHydrationWarning>
         <body
-          className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+          className={`${geistSans.variable} ${geistMono.variable} antialiased relative`}
         >
           <ThemeProvider attribute="class">
+
+            <Toaster richColors position="top-center" />
             {children}
-            <AnimatedThemeToggler className="fixed bottom-[15px] left-[15px]" />
+            <FooterComponent />
+
           </ThemeProvider>
         </body>
       </html>

@@ -1,5 +1,7 @@
+import { getProjectDetails } from "@/app/actions/projectActions";
 import AddEndpointBtn from "@/components/addEndpoint/addEndpoint";
 import BarUptime from "@/components/barUptime";
+import FooterComponent from "@/components/footer";
 import { ChartAreaInteractive } from "@/components/latencyChart/latencyChart";
 import { Button } from "@/components/ui/button";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -8,11 +10,14 @@ import { CheckIcon, ChevronRight, Github, NetworkIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function ProjectPage() {
+export default async function ProjectPage(params: { params: Promise<{ id: string }> }) {
+    const projectId = (await params.params).id;
+    const projectDetails = await getProjectDetails(projectId)
     const projectTabs = [
-        { label: "Overview" },
-        { label: "Logs" },
-        { label: "Settings" },
+        { label: "Dashboard", href: "/dashboard" },
+        { label: "Overview", href: `/project/${projectId}` },
+        { label: "Logs", href: `/project/${projectId}/logs` },
+        { label: "Settings", href: `/project/${projectId}/settings` },
     ]
 
     return (<div className="relative min-h-[100vh] pt-[90px] pb-[50px] overflow-x-hidden">
@@ -26,7 +31,7 @@ export default function ProjectPage() {
             </Link>
             <div className="flex gap-[10px] items-center">
                 <ChevronRight size={14} className="opacity-[0.3]" />
-                <p className="text-[15px]">ProjectName</p>
+                <p className="text-[15px]">{projectDetails?.projectName}</p>
                 <NetworkIcon size={16} />
             </div>
             <div className="ml-auto">
@@ -34,14 +39,17 @@ export default function ProjectPage() {
             </div>
         </div>
 
+
         <div className="fixed flex px-[15px] items-center top-[50px] h-[40px] backdrop-blur-[20px] bg-background/50 w-full z-[10]">
             {projectTabs.map((tab, index) => (
-                <Button variant="ghost" key={index} className="font-[400] rounded-[4px] h-[30px] text-[12px]">{tab.label}</Button>
+                <Link key={index} href={tab.href}>
+                    <Button variant="ghost" className="font-[400] rounded-[4px] h-[30px] text-[12px]">{tab.label}</Button>
+                </Link>
             ))}
         </div>
 
 
-        <div className="mx-auto max-w-[1000px] h-[500px] px-[15px] ">
+        <div className="mx-auto max-w-[1000px] px-[15px] ">
 
             {/* <div className="rounded-[10px] border-[2px] bg-[#f72424]/20 dark:bg-[#f72424]/12 border-[#f72424]/10 p-[15px] relative my-[20px]">
                 <X className="absolute right-[10px] top-[10px] hover:bg-background/40 cursor-pointer rounded-[50%] p-[3px]" size={22} />
@@ -52,18 +60,15 @@ export default function ProjectPage() {
 
             <div className="flex my-[30px] md:flex-row flex-col gap-[30px]">
                 <div className="flex-1">
-                    <h1 className="text-[24px]">ProjectName</h1>
+                    <h1 className="text-[24px]">{projectDetails?.projectName}</h1>
                     <Button className="mt-[15px]" variant="outline"><Github /> Repository</Button>
                 </div>
 
-                <div className="flex-1 flex flex-col items-center gap-[10px]">
+                <div className="flex-1 flex flex-col items-center md:items-end gap-[10px]">
                     <div className="flex flex-col gap-[10px]">
-                        {/* <p className="text-[12px] opacity-[0.7] text-right w-full">Last pinged 5min ago</p> */}
-
                         <BarUptime />
+                        <p className="text-[12px] opacity-[0.7] text-center w-full">Last pinged 5min ago</p>
                     </div>
-
-                    <p className="text-[12px] opacity-[0.7] text-center w-full">Last pinged 5min ago</p>
                 </div>
             </div>
 
@@ -72,7 +77,7 @@ export default function ProjectPage() {
             </div>
 
 
-            <div className="flex flex-col gap-[10px] items-center">
+            <div className="flex flex-col gap-[25px] items-center">
                 {/* <p className="opacity-[0.7] font-[300] text-[14px]">Add endpoints to your project to keep them warm</p> */}
                 <Table>
                     <TableHeader>
@@ -115,7 +120,6 @@ export default function ProjectPage() {
             </div>
 
         </div>
-
 
     </div >)
 }

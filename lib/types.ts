@@ -1,34 +1,55 @@
 export interface ProjectType {
     projectId: string,
     projectName: string,
+    ownerId: string,
     createdAt: Date,
-    githubUrl: string
+
+    githubIntegration: {
+        githubRepoId: number;
+        githubRepoName: string;
+        installationId: number;
+    } | null,
+
+    overallStatus: "OPERATIONAL" | "DEGRADED" | "PARTIAL_OUTAGE" | "MAJOR_OUTAGE" | null
 }
 
+export type methodType = "GET" | "PUT" | "DELETE" | "POST"
+export type endpointStatus = "UP" | "DOWN" | "DEGRADED" | "MAINTENANCE"
 export interface EndpointType {
     endpointId: string,
+    projectId: string,
+
     url: string,
-    method: "GET" | "PUT" | "DELETE" | "POST",
+    method: methodType,
     expectedResponse: string | null,
+    headers: Record<string, string> | null;
+    body: string | null;
+
     intervalMinutes: number,
-    lastPingedAt: Date|null,
+    lastPingedAt: Date | null,
     nextPingAt: Date,
-    enabled: boolean
+
+    enabled: boolean,
+
+    //status 
+    currentStatus: endpointStatus | null,
+    consecutiveFailures: number,
+    latencyAvg: number | null,
+    lastStatusChange: Date
 }
 
 export interface PingLog {
     projectId: string,
+    projectName: string,
     endpointId: string,
-
     url: string,
     method: "GET" | "PUT" | "DELETE" | "POST",
-
     status: "OK" | "TIMEOUT" | "DNS" | "CONN_REFUSED" | "TLS" |
     "HTTP_4XX" | "HTTP_5XX" | "RATE_LIMITED" |
     "BLOCKED" | "UNKNOWN",
-
+    responseMessage: string | null,
+    errorMessage?: string | null,
     statusCode: number | null,
     latencyMs: number | null,
-
-    timestamp: Date
+    timestamp: Date,
 }

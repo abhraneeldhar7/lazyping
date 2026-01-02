@@ -3,17 +3,20 @@ import ProjectCard from "@/components/projectCard";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { UserPopoverComponent } from "@/components/userPopover";
-import { CheckCircle, ChevronRight, PackageOpen, XCircle } from "lucide-react";
+import { CheckCircle, PackageOpen, XCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { getProjects } from "../actions/projectActions";
+import { ProjectType } from "@/lib/types";
 
-export default function Dashboard() {
+export default async function Dashboard() {
 
+    const projectsArray = await getProjects();
 
 
     return (
 
-        <div>
+        <div className="pt-[15px] pb-[30px]">
 
 
             <div className="border bg-muted/60 rounded-[5px] md:h-[50px] h-[45px] w-full flex md:pl-[20px] p-[6px] pl-[10px] items-center gap-[10px] relative">
@@ -40,12 +43,13 @@ export default function Dashboard() {
 
             <div className="flex md:flex-row flex-col md:gap-[30px] gap-[20px] mt-[30px]">
 
-                <div className="flex flex-col gap-[20px] w-full max-w-[400px]">
-                    <div className="">
-                        <Label className="pl-[5px]">Alert</Label>
-                        <div className={`rounded-[6px] border border-border/40 w-full mt-[10px] bg-muted dark:bg-muted/80 p-[4px] flex flex-col gap-[4px]`}>
+                {projectsArray.length > 0 &&
+                    <div className="flex flex-col gap-[20px] w-full max-w-[400px]">
+                        <div className="">
+                            <Label className="pl-[5px]">Alert</Label>
+                            <div className={`rounded-[6px] border border-border/40 w-full mt-[10px] bg-muted dark:bg-muted/80 p-[4px] flex flex-col gap-[4px]`}>
 
-                            {/* <div className="h-[50px] rounded-[2px] border border-[var(--error)]/18 bg-[var(--error)]/8 flex items-center px-[10px] text-[14px] gap-[10px]">
+                                {/* <div className="h-[50px] rounded-[2px] border border-[var(--error)]/18 bg-[var(--error)]/8 flex items-center px-[10px] text-[14px] gap-[10px]">
                                     <XCircle size={16} className="text-[var(--error)]" />
                                     <p className="opacity-[0.5] truncate w-[90px]">Project Name</p>
                                     <ChevronRight size={14} className="opacity-[0.7]" />
@@ -56,21 +60,22 @@ export default function Dashboard() {
 
                                 <Button className="w-full h-[30px] text-[12px]" variant="ghost">More</Button> */}
 
-                            <div className="h-[100px] bg-[var(--success)]/5 rounded-[4px] flex items-center justify-center border-[2px] border-[var(--success)]/10 gap-[10px]">
-                                <p className="text-[14px] leading-[1em]">
-                                    No alerts so far
-                                </p>
-                                <CheckCircle size={16} className="text-[var(--success)]" />
+                                <div className="h-[100px] bg-[var(--success)]/5 rounded-[4px] flex items-center justify-center border-[2px] border-[var(--success)]/10 gap-[10px]">
+                                    <p className="text-[14px] leading-[1em]">
+                                        No alerts so far
+                                    </p>
+                                    <CheckCircle size={16} className="text-[var(--success)]" />
+                                </div>
+
                             </div>
-
                         </div>
-                    </div>
 
-                    <div className="">
-                        <Label className="pl-[5px]">Recent</Label>
-                        <div className="rounded-[6px] border-border/40 border w-full mt-[10px] bg-muted dark:bg-muted/80 text-[14px] p-[4px] flex flex-col gap-[4px]">
 
-                            {/* <div className="h-[50px] rounded-[2px] border flex items-center px-[10px] text-[14px] gap-[10px] border-[var(--error)]/18 bg-[var(--error)]/8">
+                        <div className="">
+                            <Label className="pl-[5px]">Recent</Label>
+                            <div className="rounded-[6px] border-border/40 border w-full mt-[10px] bg-muted dark:bg-muted/80 text-[14px] p-[4px] flex flex-col gap-[4px]">
+
+                                {/* <div className="h-[50px] rounded-[2px] border flex items-center px-[10px] text-[14px] gap-[10px] border-[var(--error)]/18 bg-[var(--error)]/8">
                                     <XCircle size={16} className="text-[var(--error)]" />
                                     <p className="opacity-[0.7] truncate flex-1">Projecaedomain.com/api/something/something</p>
                                     <div>
@@ -88,43 +93,50 @@ export default function Dashboard() {
 
                                 <Button className="w-full h-[30px] text-[12px]" variant="ghost">More</Button> */}
 
-                            <div className="h-[100px] opacity-[0.8] rounded-[4px] flex items-center justify-center gap-[10px]">
-                                <p className="text-[14px] leading-[1em]">
-                                    No recent pings
-                                </p>
-                                <PackageOpen size={18} />
+                                <div className="h-[100px] opacity-[0.8] rounded-[4px] flex items-center justify-center gap-[10px]">
+                                    <p className="text-[14px] leading-[1em]">
+                                        No recent pings
+                                    </p>
+                                    <PackageOpen size={18} />
+                                </div>
                             </div>
 
-
                         </div>
 
+                        {/* <Image src="https://s1.r29static.com/bin/entry/b0a/0,0,818,981/720x864,85/1473242/image.webp" className="w-[200px] mx-auto" alt="" height={800} width={200}/> */}
                     </div>
-
-                    {/* <Image src="https://s1.r29static.com/bin/entry/b0a/0,0,818,981/720x864,85/1473242/image.webp" className="w-[200px] mx-auto" alt="" height={800} width={200}/> */}
-                </div>
-
+                }
                 <div className="w-full">
                     <Label className="pl-[5px]">Projects</Label>
-                    <div className="flex flex-col items-center mt-[10px] justify-center p-[40px] rounded-[10px] border mb-[20px] shadow-sm bg-gradient-to-r from-muted via-background to-muted">
-                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" className="mb-[10px]">
-                            <rect x="3" y="7" width="18" height="13" rx="3" fill="currentColor" fillOpacity="0.12" />
-                            <rect x="7" y="3" width="10" height="4" rx="2" fill="currentColor" fillOpacity="0.22" />
-                            <rect x="9" y="10" width="6" height="2" rx="1" fill="currentColor" />
-                        </svg>
 
-                        <p className="text-[14px] mb-[15px] text-muted-foreground opacity-[0.8]">
-                            Create your first project to start monitoring.
-                        </p>
-                        <NewProjectBtn />
+                    <div className="mt-[10px]">
+
+                        {projectsArray.length < 1 ?
+                            <div className="flex flex-col items-center justify-center p-[40px] rounded-[10px] border mb-[20px] shadow-sm bg-gradient-to-r from-muted via-background to-muted h-[300px]">
+                                <svg width="40" height="40" viewBox="0 0 24 24" fill="none" className="mb-[10px]">
+                                    <rect x="3" y="7" width="18" height="13" rx="3" fill="currentColor" fillOpacity="0.12" />
+                                    <rect x="7" y="3" width="10" height="4" rx="2" fill="currentColor" fillOpacity="0.22" />
+                                    <rect x="9" y="10" width="6" height="2" rx="1" fill="currentColor" />
+                                </svg>
+
+                                <p className="text-[14px] mb-[15px] text-muted-foreground opacity-[0.8]">
+                                    Create your first project to start monitoring.
+                                </p>
+                                <NewProjectBtn />
+                            </div> :
+
+                            <div className="flex flex-col gap-[40px]">
+                                <div className="grid h-fit md:grid-cols-2 grid-cols-1 gap-[20px] flex-1 items-center">
+                                    {projectsArray.map((project, index) => (
+                                        <ProjectCard key={index} project={project} />
+                                    ))}
+                                </div>
+                                <div className="mx-auto">
+                                    <NewProjectBtn />
+                                </div>
+                            </div>
+                        }
                     </div>
-
-
-                    <div className="grid h-fit md:grid-cols-2 grid-cols-1 gap-[20px] flex-1">
-                            <ProjectCard />
-                            <ProjectCard />
-                            <ProjectCard />
-                            <ProjectCard />
-                        </div>
                 </div>
 
             </div>

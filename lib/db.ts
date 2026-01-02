@@ -4,7 +4,7 @@ const uri = process.env.MONGODB_URI!;
 if (!uri) throw new Error("MONGODB_URI missing");
 
 const options = {
-  maxPoolSize: 10,       // adjust based on traffic
+  maxPoolSize: 10,
   minPoolSize: 2,
   maxIdleTimeMS: 30000,
   connectTimeoutMS: 10000,

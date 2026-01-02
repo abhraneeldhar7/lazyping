@@ -1,14 +1,15 @@
 import { ChartNoAxesColumnIncreasing, Server, CheckCircle } from "lucide-react";
 import BarUptime from "./barUptime";
 import Link from "next/link";
+import { ProjectType } from "@/lib/types";
 
-export default function ProjectCard() {
-    return (<Link href="/project/123" className="rounded-[10px] border bg-muted p-[10px] h-[180px] flex justify-between flex-col relative overflow-hidden group transition-all duration-300 active:translate-y-[2px] cursor-pointer select-none">
+export default function ProjectCard({ project }: { project: ProjectType }) {
+    return (<Link href={`/project/${project?.projectId}`} className="rounded-[10px] border bg-muted p-[10px] h-[180px] flex justify-between flex-col relative overflow-hidden group transition-all duration-300 active:translate-y-[2px] cursor-pointer select-none">
 
         <div className="rounded-[50%] h-[20px] w-full absolute bg-foreground blur-[60px] bottom-[30%] left-[-50%] rotate-[-40deg] group-hover:translate-x-[50%] group-hover:translate-y-[-50%] transition-all duration-400 ease-in-out animate-pulse" />
 
         <div className="z-[2] flex flex-col gap-[10px] pl-[5px]">
-            <h3 className="text-[18px] truncate max-w-[300px]">Project name</h3>
+            <h3 className="text-[18px] truncate max-w-[300px]">{project?.projectName}</h3>
             <p className="opacity-[0.7] text-[14px] flex items-center gap-[5px]">
                 <CheckCircle size={14} className="text-[var(--success)]" />
                 Active

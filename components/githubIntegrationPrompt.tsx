@@ -73,21 +73,27 @@ function GithubIntegartionAnimation() {
 
 export function GithubIntegartionPrompt() {
 
-    return (<div className="dark:bg-muted/60 bg-muted border shadow-md rounded-[22px] mx-auto w-full max-w-[400px] flex flex-col justify-between md:h-[44vh] h-[38vh]">
+    return (<div className="dark:bg-muted/60 bg-muted border shadow-md rounded-[8px] mx-auto w-full max-w-[400px] flex flex-col justify-between">
 
         <div className="md:p-[35px] p-[25px] pb-0 h-full flex flex-col">
             <h2 className="text-center text-[25px]">Connect to Github</h2>
             <p className="text-[15px] opacity-[0.8] text-center mt-[5px]">For more benifits</p>
-            <div className="flex items-center flex-1">
+            <div className="flex items-center flex-1 my-[30px]">
                 <GithubIntegartionAnimation />
+            </div>
+            <div className="flex flex-col gap-[5px] text-[15px] opacity-[0.9]">
+                <p>Auto import projects and endpoints</p>
+                <p>Github in-app alerts</p>
             </div>
         </div>
 
         <div className="flex gap-[8px] md:flex-row flex-col-reverse p-[15px] pt-0">
             <Link href="/dashboard" className="flex-1">
-                <Button variant="secondary" className="w-full rounded-[7px]">Cancel</Button>
+                <Button variant="secondary" className="w-full">Cancel</Button>
             </Link>
-            <Button className="flex-1 rounded-[7px]" >Authenticate</Button>
+            <div className="flex-1">
+                <Button className="w-full" >Authenticate</Button>
+            </div>
         </div>
 
     </div>)

@@ -1,12 +1,19 @@
-import { GithubIcon } from "lucide-react";
+"use client"
+import { GithubIcon, Loader, LoaderCircle } from "lucide-react";
 import { Button } from "./ui/button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogTitle, DialogTrigger } from "./ui/dialog";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { RepoCombobox } from "./repoCombobox";
+import { useState } from "react";
+import { toast } from "sonner";
+import { createProject } from "@/app/actions/projectActions";
+import { useRouter } from "next/navigation";
 
 
 export default function NewProjectBtn() {
+    const [projectName, setProjectName] = useState<string>("")
+    const router = useRouter();
+    const [loading, setLoading] = useState(false);
 
     return (
         <div >
@@ -17,27 +24,60 @@ export default function NewProjectBtn() {
                     </Button>
                 </DialogTrigger>
                 <DialogContent showCloseButton={false}>
+
                     <DialogTitle>
                         Add new project
                     </DialogTitle>
                     <DialogDescription />
-                    <div className="flex flex-col gap-[15px]">
-                        <div className="flex flex-col gap-[8px]">
-                            <Label>Name</Label>
-                            <Input placeholder="Very cool project" />
-                        </div>
-                        <div className="flex flex-col gap-[8px]">
+                    <form className="flex flex-col gap-[30px]" onSubmit={async (e) => {
+                        e.preventDefault();
+                        if (projectName.length < 3) {
+                            toast.warning("Name should be more than 3 charecters");
+                            return;
+                        };
+                        try {
+                            setLoading(true);
+                            const newProject = await createProject({ projectName: projectName, githubIntegration: null });
+                            toast.success("Project created successfully");
+                            router.push(`/project/${newProject.project.projectId}`)
+                        }
+                        catch (error) {
+                            toast.error("Failed to create project");
+                            return;
+                        }
+                        finally {
+                            setLoading(false);
+                        }
+
+                    }}>
+                        <div className="flex flex-col gap-[15px]">
+                            <div className="flex flex-col gap-[8px]">
+                                <Label>Name</Label>
+                                <Input placeholder="Very cool project" value={projectName} onChange={(e) => setProjectName(e.target.value)} />
+                            </div>
+                            {/* <div className="flex flex-col gap-[8px]">
                             <Button>
                                 Connect Github <GithubIcon />
                             </Button>
                             <RepoCombobox />
+                        </div> */}
+
                         </div>
 
-                    </div>
-                    <DialogFooter>
-                        <DialogClose>Cancel</DialogClose>
-                        <Button variant="shinny">Create</Button>
-                    </DialogFooter>
+                        <DialogFooter>
+                            {!loading ?
+                                <>
+                                    <DialogClose>Cancel</DialogClose>
+                                    <Button variant="shinny" type="submit">Create</Button>
+                                </>
+                                :
+                                <div className="h-[36px] w-[35px] flex items-center justify-center">
+                                    <LoaderCircle size={18} className="animate-spin" />
+                                </div>
+                            }
+                        </DialogFooter>
+
+                    </form>
                 </DialogContent>
             </Dialog>
         </div>

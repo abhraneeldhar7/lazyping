@@ -1,7 +1,8 @@
-import LogsComponent from "@/components/logsComponent";
+import LogsPageComponent from "@/components/logsComponent";
+
 
 export default function DashboardLogsPage() {
     return (<div>
-        <LogsComponent />
+        <LogsPageComponent />
     </div>)
 }
