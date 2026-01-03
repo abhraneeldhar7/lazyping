@@ -39,7 +39,7 @@ export async function createProject(data: {
  */
 export async function getProjects() {
     const { userId } = await auth();
-    if (!userId) return [];
+    if (!userId) throw new Error("Unauthorized");
 
     const db = await getDB();
     const projects = await db.collection("projects")
@@ -78,7 +78,9 @@ export async function saveProject(projectData: ProjectType) {
 
 export async function getProjectDetails(projectId: string) {
     const db = await getDB();
-    const project = await db.collection("projects").findOne({ projectId: projectId }, { projection: { _id: 0 } }) as ProjectType | null;
+    const { userId } = await auth();
+    if (!userId) throw new Error("Unauthorized");
+    const project = await db.collection("projects").findOne({ projectId: projectId, ownerId: userId }, { projection: { _id: 0 } }) as ProjectType | null;
     return project;
 }
 

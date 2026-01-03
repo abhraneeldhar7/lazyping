@@ -43,10 +43,8 @@ export default function NewProjectBtn() {
                         }
                         catch (error) {
                             toast.error("Failed to create project");
-                            return;
-                        }
-                        finally {
                             setLoading(false);
+                            return;
                         }
 
                     }}>
@@ -71,7 +69,7 @@ export default function NewProjectBtn() {
                                     <Button variant="shinny" type="submit">Create</Button>
                                 </>
                                 :
-                                <div className="h-[36px] w-[35px] flex items-center justify-center">
+                                <div className="h-[36px] w-[35px] ml-auto flex items-center justify-center">
                                     <LoaderCircle size={18} className="animate-spin" />
                                 </div>
                             }
