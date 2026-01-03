@@ -29,7 +29,7 @@ import {
 export const description = "An interactive area chart"
 
 const chartData = [
-  { date: "2024-04-01", desktop: 222, mobile: 150, mac:20 },
+  { date: "2024-04-01", desktop: 222, mobile: 150, mac: 20 },
   { date: "2024-04-02", desktop: 97, mobile: 180 },
   { date: "2024-04-03", desktop: 167, mobile: 120 },
   { date: "2024-04-04", desktop: 242, mobile: 260 },
@@ -154,17 +154,17 @@ export function ChartAreaInteractive() {
   })
 
   return (
-    <Card className="pt-0">
-      <CardHeader className="flex items-center gap-2 space-y-0 border-b py-5 sm:flex-row">
+    <Card className="pt-0 dark:bg-muted/50 border-0">
+      <CardHeader className="flex items-center gap-2 space-y-0 py-5 sm:flex-row">
         <div className="grid flex-1 gap-1">
-          <CardTitle>Area Chart - Interactive</CardTitle>
+          <CardTitle>Latency chart for this project</CardTitle>
           <CardDescription>
-            Showing total visitors for the last 3 months
+            Showing response time for the last month
           </CardDescription>
         </div>
         <Select value={timeRange} onValueChange={setTimeRange}>
           <SelectTrigger
-            className="hidden w-[160px] rounded-lg sm:ml-auto sm:flex"
+            className="w-[160px] rounded-lg sm:ml-auto sm:flex"
             aria-label="Select a value"
           >
             <SelectValue placeholder="Last 3 months" />

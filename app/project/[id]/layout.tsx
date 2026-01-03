@@ -6,6 +6,7 @@ import { UserPopoverComponent } from "@/components/userPopover";
 import { ChevronRight, NetworkIcon } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import ProjectTitle from "@/components/projectTitle";
 
 export default async function ProjectLayout({
     children,
@@ -35,11 +36,14 @@ export default async function ProjectLayout({
                 <Link href="/dashboard">
                     <Image src="/appLogo.png" alt="" height={30} width={30} unoptimized />
                 </Link>
-                <div className="flex gap-[10px] items-center">
+                {projectDetails &&
+                    <ProjectTitle projectName={projectDetails?.projectName} />
+                }
+                {/* <div className="flex gap-[10px] items-center">
                     <ChevronRight size={14} className="opacity-[0.3]" />
                     <p className="text-[15px]">{projectDetails?.projectName}</p>
                     <NetworkIcon size={16} />
-                </div>
+                </div> */}
                 <div className="ml-auto">
                     <UserPopoverComponent />
                 </div>

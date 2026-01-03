@@ -9,12 +9,13 @@ import { v4 as uuidv4 } from "uuid";
 /**
  * Adds a monitored endpoint to a project
  */
-export async function createEndpoint(projectId: string, data: {
+export async function createEndpoint(data: {
     url: string;
     method: methodType;
     intervalMinutes: number;
-    expectedResponseCode: string;
+    expectedResponse: string;
     body: string | null;
+    projectId: string;
     headers: Record<string, string> | null;
 }) {
     const { userId } = await auth();
@@ -22,18 +23,18 @@ export async function createEndpoint(projectId: string, data: {
 
     const db = await getDB();
 
-    const userCheck = (await getDB()).collection("projects").findOne({ projectId: projectId, ownerId: userId })
+    const userCheck = (await getDB()).collection("projects").findOne({ projectId: data.projectId, ownerId: userId })
     if (!userCheck) throw new Error("Unauthorized");
 
     const newEndpoint: EndpointType = {
-        projectId: projectId,
+        projectId: data.projectId,
         endpointId: uuidv4(),
         url: data.url,
         method: data.method,
         intervalMinutes: data.intervalMinutes,
-        expectedResponse: data.expectedResponseCode,
+        expectedResponse: data.expectedResponse,
         enabled: true,
-        currentStatus: null,
+        currentStatus: "UP",
         consecutiveFailures: 0,
         lastPingedAt: null,
         headers: data.headers,
@@ -44,7 +45,7 @@ export async function createEndpoint(projectId: string, data: {
     };
 
     await db.collection("endpoints").insertOne(newEndpoint);
-    revalidatePath(`/project/${projectId}`);
+    revalidatePath(`/project/${data.projectId}`);
 }
 
 

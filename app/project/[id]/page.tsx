@@ -1,5 +1,5 @@
 "use client"
-import AddEndpointBtn from "@/components/addEndpoint/addEndpoint";
+import AddEndpointBtn from "@/components/addEndpoint";
 import BarUptime from "@/components/barUptime";
 import { ChartAreaInteractive } from "@/components/latencyChart/latencyChart";
 import { useProject } from "@/components/projectContext";
@@ -77,7 +77,7 @@ export default function ProjectPage() {
                     <StickerIcon size={30} />
                     <p>No endpoints added for this project</p>
                 </div> */}
-                <AddEndpointBtn />
+                <AddEndpointBtn projectId={projectData.projectId} />
             </div>
         </>
     )
