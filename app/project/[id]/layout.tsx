@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import ProjectTitle from "@/components/projectTitle";
 import { getEndpoints } from "@/app/actions/endpointActions";
 import { notFound } from "next/navigation";
+import ProjectTabs from "@/components/projectTabs";
+import { ChevronRight } from "lucide-react";
 
 export default async function ProjectLayout({
     children,
@@ -28,12 +30,7 @@ export default async function ProjectLayout({
 
         if (!projectDetails) return notFound();
 
-        const projectTabs = [
-            { label: "Dashboard", href: "/dashboard" },
-            { label: "Overview", href: `/project/${projectId}` },
-            { label: "Logs", href: `/project/${projectId}/logs` },
-            { label: "Settings", href: `/project/${projectId}/settings` },
-        ]
+
 
         return (
             <div className="relative min-h-[100vh] pt-[120px] pb-[50px] overflow-x-hidden">
@@ -45,8 +42,9 @@ export default async function ProjectLayout({
                     <Link href="/dashboard">
                         <Image src="/appLogo.png" alt="" height={30} width={30} unoptimized />
                     </Link>
+                    <ChevronRight size={14} className="opacity-[0.3]" />
                     {projectDetails &&
-                        <ProjectTitle projectName={projectDetails?.projectName} />
+                        <ProjectTitle projectName={projectDetails?.projectName} endpoints={endpoints} />
                     }
                     {/* <div className="flex gap-[10px] items-center">
                     <ChevronRight size={14} className="opacity-[0.3]" />
@@ -58,14 +56,9 @@ export default async function ProjectLayout({
                     </div>
                 </div>
 
+                <ProjectTabs projectId={projectId} />
 
-                <div className="fixed flex px-[15px] items-center top-[50px] h-[40px] backdrop-blur-[20px] bg-background/50 w-full z-[10]">
-                    {projectTabs.map((tab, index) => (
-                        <Link key={index} href={tab.href}>
-                            <Button variant="ghost" className={`font-[400] rounded-[4px] h-[30px] text-[12px]`}>{tab.label}</Button>
-                        </Link>
-                    ))}
-                </div>
+
                 <ProjectContextProvider projectData={projectDetails} endpoints={endpoints} logs={projectLogs}  >
                     <div className="mx-auto max-w-[1000px] px-[15px]">
                         {children}

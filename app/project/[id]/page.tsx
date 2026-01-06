@@ -63,8 +63,8 @@ export default function ProjectPage() {
         })();
 
         toast.promise(promise, {
-            success: 'All endpoints checked successfully',
-            error: 'Failed to complete project-wide ping',
+            success: 'All endpoints pinged',
+            error: 'Failed to ping all endpoints',
         });
 
         try {

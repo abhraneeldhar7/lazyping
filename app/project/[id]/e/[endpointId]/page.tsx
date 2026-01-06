@@ -14,14 +14,7 @@ export default async function EndpointPage({ params }: { params: Promise<{ endpo
 
     return (
         <div className="flex flex-col gap-[30px]">
-            <div className="flex justify-between">
-                <Link href={`/project/${endpointDetails.projectId}`} className="w-fit">
-                    <Button className="h-[30px] text-[12px]" variant="secondary"><Undo2Icon className="p-[1px]" /> Project</Button>
-                </Link>
-                <Link href={`/project/${endpointDetails.projectId}/e/${endpointDetails.endpointId}/settings`} className="w-fit">
-                    <Button className="h-[30px] text-[12px]"><SettingsIcon className="p-[1px]" /> Settings</Button>
-                </Link>
-            </div>
+
             <NextPingComponent endpoints={[JSON.parse(JSON.stringify(endpointDetails))]} />
 
             {/* <ChartAreaInteractive /> */}

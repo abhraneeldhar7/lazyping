@@ -67,10 +67,8 @@ export default function EndpointSettingsClientPage({ endpointDetails }: { endpoi
 
     return (<>
         <div className="flex flex-col gap-[30px]">
-            <div className="flex gap-[30px] justify-between items-center">
-                <Link href={`/project/${endpointDetails.projectId}/e/${endpointDetails.endpointId}`} className="w-fit">
-                    <Button className="h-[30px] text-[12px]" variant="secondary"><Undo2Icon className="p-[1px]" /> Endpoint</Button>
-                </Link>
+            <div className="flex gap-[30px] justify-end items-center">
+
 
                 <Button loading={saveLoader} onClick={handleSave} disabled={compareObjects(endpointDetails, endpointDetailsUpdated)}><SaveIcon /> Save</Button>
             </div>
@@ -100,7 +98,7 @@ export default function EndpointSettingsClientPage({ endpointDetails }: { endpoi
                         <div className="h-[23px] flex items-start">
                             <Label>Expected response</Label>
                         </div>
-                        <Textarea className="min-h-[150px] max-h-[200px] h-full" placeholder={endpointDetails.expectedResponse || ""} defaultValue={endpointDetails.expectedResponse || ""} onChange={(e) => {
+                        <Textarea className="min-h-[150px] max-h-[200px] h-full" placeholder={endpointDetails.expectedResponse || "{ status : `healthy` } or keep it empty"} defaultValue={endpointDetails.expectedResponse || ""} onChange={(e) => {
                             if (e.target.value.length == 0) {
                                 setEndpointDetailsUpdated({ ...endpointDetailsUpdated, expectedResponse: endpointDetails.expectedResponse })
                             }
