@@ -7,8 +7,8 @@ export default function FooterComponent() {
     return (
         <footer className="h-[50vh] w-full flex  bg-foreground/2 flex-col justify-between text-[15px]">
 
-            <div className="md:p-[30px] p-[15px] flex justify-between gap-[50px] md:flex-row flex-col">
-                <div className="flex-2">
+            <div className="md:p-[50px] p-[15px] flex justify-between gap-[50px] md:flex-row flex-col">
+                <div>
                     <div className="flex items-center gap-[15px]">
                         <Image src="/appLogo.png" height={28} width={28} alt="" />
                         <h1>LazyPing</h1>
@@ -16,10 +16,10 @@ export default function FooterComponent() {
                     <p className="mt-[15px] max-w-[300px] opacity-[0.8] text-[14px]">LazyPing is a service which pings servers and alerts outages before users notice.</p>
                 </div>
 
-                <div className="flex flex-col gap-[10px] md:text-right flex-1">
-                    <Link href="/privacy-policy">Privacy Policy</Link>
-                    <Link href="/contact-us">Contact</Link>
-                    <Link href="/blogs">Blogs</Link>
+                <div className="flex flex-col gap-[10px] md:text-right">
+                    <Link className="w-fit" href="/privacy-policy">Privacy Policy</Link>
+                    <Link className="w-fit" href="/contact-us">Contact</Link>
+                    <Link className="w-fit" href="/blogs">Blogs</Link>
 
                 </div>
 
@@ -32,11 +32,11 @@ export default function FooterComponent() {
                             <span>Antk</span>
                             <span className="relative inline-block">
                                 i
-                                <span className="absolute left-1/2 -translate-x-1/2 top-[0.2em] bg-foreground rounded-full text-background p-[4px] h-[0.3em] w-[0.3em] flex items-center justify-center">
+                                <span className="absolute left-1/2 -translate-x-1/2 top-[0.25em] bg-foreground rounded-full text-background p-[4px] h-[0.25em] w-[0.25em] flex items-center justify-center">
                                     <AnimatedThemeToggler />
                                 </span>
                             </span>
-                            <span>n</span>
+                            <span className="z-[1]">n</span>
                         </h1>
                         <div className="md:h-[8vw] h-[27vw] bg-gradient-to-t from-background from-[50%] to-transparent to-[100%] absolute bottom-[-4px] z-[2] w-full" />
                     </div>
