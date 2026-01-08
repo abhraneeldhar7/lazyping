@@ -32,7 +32,6 @@ export interface EndpointType {
 
     enabled: boolean,
 
-    //status 
     currentStatus: endpointStatus | null,
     consecutiveFailures: number,
     latency: number | null,
@@ -41,7 +40,6 @@ export interface EndpointType {
 
 export interface PingLog {
     projectId: string,
-    // projectName: string,
     endpointId: string,
     url: string,
     method: "GET" | "PUT" | "DELETE" | "POST",

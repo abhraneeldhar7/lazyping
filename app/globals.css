@@ -190,3 +190,13 @@ body {
   animation: none;
   mix-blend-mode: normal;
 }
+
+
+html {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+html::-webkit-scrollbar {
+  display: none;
+}
