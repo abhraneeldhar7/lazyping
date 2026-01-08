@@ -18,6 +18,10 @@ export default function LogsTable({ logsData }: { logsData: PingLog[] }) {
     const [projectDetails, setProjectDetails] = useState<ProjectType | null>(null);
     const [isSheetOpen, setIsSheetOpen] = useState(false);
 
+    // Check if all logs are from the same project
+    const uniqueProjectIds = [...new Set(logsData.map(log => log.projectId))];
+    const isSingleProject = uniqueProjectIds.length === 1;
+
     useEffect(() => {
         if (isSheetOpen && selectedLog) {
             const fetchData = async () => {
@@ -39,16 +43,16 @@ export default function LogsTable({ logsData }: { logsData: PingLog[] }) {
 
 
     return (
-        <div className="w-full">
+        <div className="w-full overflow-x-auto">
             <Table>
                 <TableHeader>
                     <TableRow className="opacity-[0.6] text-[12px]">
-                        <TableHead className="">URL</TableHead>
-                        <TableHead>Method</TableHead>
-                        <TableHead className="w-[120px]">Status</TableHead>
-                        <TableHead>Code</TableHead>
-                        <TableHead>Latency</TableHead>
-                        <TableHead className="text-right">Timestamp</TableHead>
+                        <TableHead className="min-w-[180px]">URL</TableHead>
+                        <TableHead className="w-[80px] hidden sm:table-cell">Method</TableHead>
+                        <TableHead className="w-[140px]">Status</TableHead>
+                        <TableHead className="w-[70px] hidden md:table-cell">Code</TableHead>
+                        <TableHead className="w-[90px] hidden lg:table-cell">Latency</TableHead>
+                        <TableHead className="w-[100px] text-right">Time</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody className="text-[12px] cursor-pointer" suppressHydrationWarning>
@@ -61,12 +65,30 @@ export default function LogsTable({ logsData }: { logsData: PingLog[] }) {
                                 setIsSheetOpen(true);
                             }}
                         >
-                            <TableCell className="text-[14px] max-w-[140px] truncate md:max-w-[unset]">
-                                {log.url}
+                            <TableCell className="min-w-[180px]">
+                                <div className="truncate text-[14px] max-w-[250px] md:max-w-none">
+                                    {(() => {
+                                        if (!isSingleProject) {
+                                            return log.url;
+                                        }
+                                        try {
+                                            const url = new URL(log.url);
+                                            const display = url.pathname + url.search;
+                                            // Always show pathname if it's not just "/"
+                                            if (display !== "/") {
+                                                return display;
+                                            }
+                                            // For root path, show full URL
+                                            return log.url;
+                                        } catch (e) {
+                                            return log.url;
+                                        }
+                                    })()}
+                                </div>
                             </TableCell>
-                            <TableCell>{log.method}</TableCell>
+                            <TableCell className="w-[80px] hidden sm:table-cell">{log.method}</TableCell>
 
-                            <TableCell>
+                            <TableCell className="w-[140px]">
                                 {log.status === "OK" ?
                                     <div className="rounded-full bg-[#00ff9e]/10 border border-[#00ff9e]/30 py-[2px] pt-[3px] px-[8px] w-fit text-[11px] text-[#00ff9e] flex items-center gap-[4px]">
                                         Active <CheckIcon size={10} />
@@ -76,9 +98,9 @@ export default function LogsTable({ logsData }: { logsData: PingLog[] }) {
                                     </div>
                                 }
                             </TableCell>
-                            <TableCell>{log.statusCode}</TableCell>
-                            <TableCell>{log.latencyMs}</TableCell>
-                            <TableCell suppressHydrationWarning className="opacity-[0.7] text-right">{
+                            <TableCell className="w-[70px] hidden md:table-cell">{log.statusCode}</TableCell>
+                            <TableCell className="w-[90px] hidden lg:table-cell">{log.latencyMs}</TableCell>
+                            <TableCell suppressHydrationWarning className="w-[100px] opacity-[0.7] text-right">{
                                 (new Date(log.timestamp)).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                             }</TableCell>
                         </TableRow>
@@ -92,7 +114,7 @@ export default function LogsTable({ logsData }: { logsData: PingLog[] }) {
 
             <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
 
-                <SheetContent side={isMobile ? "bottom" : "right"} className="ring-0 outline-0 focus:ring-0 focus:outline-0 focus:ring-offset-0 focus:outline-offset-0 md:py-[16px] md:px-[20px] px-[15px] py-[10px]">
+                <SheetContent side={isMobile ? "bottom" : "right"} className="ring-0 outline-0 focus:ring-0 focus:outline-0 focus:ring-offset-0 focus:outline-offset-0 md:py-[16px] md:px-[20px] px-[20px] py-[40px]">
                     <SheetHeader className="absolute">
                         <SheetTitle />
                         <SheetDescription />
@@ -180,7 +202,7 @@ export default function LogsTable({ logsData }: { logsData: PingLog[] }) {
 
 
                 </SheetContent>
-            </Sheet>
-        </div>
+            </Sheet >
+        </div >
     )
 }

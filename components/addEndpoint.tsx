@@ -57,15 +57,31 @@ export default function AddEndpointBtn({ projectId }: { projectId: string }) {
                 // headers: newEndpoint.headers,
                 // body: newEndpoint.body
             })
+
             if (!response.ok) {
-                toast.error("Network response was not ok")
-                throw new Error("Network response was not ok");
+                toast.error(`Request failed with status ${response.status}`);
+                setTestResponse(`Error: ${response.status} ${response.statusText}`);
+                setLoadingTest(false);
+                return;
             }
-            const data = await response.json();
-            setTestResponse(JSON.stringify(data, null, 2));
+
+            // Get the response text first
+            const text = await response.text();
+
+            // Try to parse as JSON
+            try {
+                const data = JSON.parse(text);
+                setTestResponse(JSON.stringify(data, null, 2));
+            } catch (jsonError) {
+                // Not JSON, display as plain text
+                setTestResponse(text || "(Empty response)");
+            }
 
         } catch (error) {
-            console.log(error);
+            console.error(error);
+            const errorMessage = error instanceof Error ? error.message : "Unknown error occurred";
+            toast.error(`Test failed: ${errorMessage}`);
+            setTestResponse(`Error: ${errorMessage}`);
         } finally {
             setLoadingTest(false);
         }

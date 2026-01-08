@@ -11,7 +11,7 @@ export default function DashboardTabs() {
         { label: "Overview", href: "/dashboard" },
         { label: "Pages", href: "/dashboard/pages" },
         { label: "Logs", href: "/dashboard/logs" },
-        { label: "Settings", href: "/dashboard/settings" },
+        // { label: "Settings", href: "/dashboard/settings" },
     ]
 
     return (

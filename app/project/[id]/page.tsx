@@ -171,15 +171,15 @@ export default function ProjectPage() {
 
             <div className="flex flex-col gap-[25px] items-center">
                 {endpoints.length > 0 ? (
-                    <div className="w-full overflow-hidden">
+                    <div className="w-full overflow-x-auto">
                         <Table>
                             <TableHeader>
                                 <TableRow className="text-[12px] opacity-[0.7]">
-                                    <TableHead className="">Endpoint</TableHead>
-                                    <TableHead className="w-[120px]">Status</TableHead>
-                                    <TableHead className="w-[100px]">Latency</TableHead>
-                                    <TableHead className="w-[150px]">Last Checked</TableHead>
-                                    <TableHead className="w-[100px]">Interval</TableHead>
+                                    <TableHead className="min-w-[200px]">Endpoint</TableHead>
+                                    <TableHead className="w-[140px]">Status</TableHead>
+                                    <TableHead className="w-[90px] hidden md:table-cell">Latency</TableHead>
+                                    <TableHead className="w-[120px] hidden sm:table-cell">Last Checked</TableHead>
+                                    <TableHead className="w-[80px] hidden lg:table-cell">Interval</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -187,29 +187,54 @@ export default function ProjectPage() {
                                     <TableRow className="cursor-pointer select-none hover:bg-muted/50 border-0" key={index} onClick={() => {
                                         router.push(`/project/${projectData.projectId}/e/${endpoint.endpointId}`)
                                     }}>
-                                        <TableCell>
-                                            <div className="relative overflow-hidden truncate text-[14px]">
-                                                {endpoint.url}
+                                        <TableCell className="min-w-[200px]">
+                                            <div className="truncate text-[14px] max-w-[300px] md:max-w-none">
+                                                {(() => {
+                                                    try {
+                                                        const url = new URL(endpoint.url);
+                                                        const display = url.pathname + url.search;
+                                                        // Always show pathname if it's not just "/"
+                                                        if (display !== "/") {
+                                                            return display;
+                                                        }
+                                                        // For root path, show full URL
+                                                        return endpoint.url;
+                                                    } catch (e) {
+                                                        return endpoint.url;
+                                                    }
+                                                })()}
                                             </div>
                                         </TableCell>
-                                        <TableCell>
-                                            {endpoint.currentStatus === "UP" ?
-                                                <div className="rounded-full bg-[#00ff9e]/10 border border-[#00ff9e]/30 py-[2px] pt-[3px] px-[8px] w-fit text-[11px] text-[#00ff9e] flex items-center gap-[4px]">
-                                                    Active <CheckIcon size={10} />
+                                        <TableCell className="w-[140px]">
+                                            {!endpoint.enabled ?
+                                                <div className="rounded-full bg-[#6b7280]/10 border border-[#6b7280]/30 py-[2px] pt-[3px] px-[8px] w-fit text-[11px] text-[#6b7280] flex items-center gap-[4px]">
+                                                    Paused <PauseIcon size={11} />
                                                 </div> :
-                                                <div className="rounded-full bg-[#ed0707]/10 border border-[#ed0707]/30 py-[2px] pt-[3px] px-[8px] w-fit text-[11px] text-[#ed0707] flex items-center gap-[4px]">
-                                                    Warning <OctagonAlert size={10} />
-                                                </div>
+                                                endpoint.currentStatus === "UP" ?
+                                                    <div className="rounded-full bg-[#00ff9e]/10 border border-[#00ff9e]/30 py-[2px] pt-[3px] px-[8px] w-fit text-[11px] text-[#00ff9e] flex items-center gap-[4px]">
+                                                        Active <CheckIcon size={12} />
+                                                    </div> :
+                                                    endpoint.currentStatus === "DEGRADED" ?
+                                                        <div className="rounded-full bg-[#ffa500]/10 border border-[#ffa500]/30 py-[2px] pt-[3px] px-[8px] w-fit text-[11px] text-[#ffa500] flex items-center gap-[4px]">
+                                                            Degraded <OctagonAlert size={12} />
+                                                        </div> :
+                                                        endpoint.currentStatus === "MAINTENANCE" ?
+                                                            <div className="rounded-full bg-[#3b82f6]/10 border border-[#3b82f6]/30 py-[2px] pt-[3px] px-[8px] w-fit text-[11px] text-[#3b82f6] flex items-center gap-[4px]">
+                                                                Maintenance <PauseIcon size={12} />
+                                                            </div> :
+                                                            <div className="rounded-full bg-[#ed0707]/10 border border-[#ed0707]/30 py-[2px] pt-[3px] px-[8px] w-fit text-[11px] text-[#ed0707] flex items-center gap-[4px]">
+                                                                Down <XIcon size={10} />
+                                                            </div>
                                             }
                                         </TableCell>
-                                        <TableCell className="text-[13px] opacity-80">
+                                        <TableCell className="w-[90px] text-[13px] opacity-80 hidden md:table-cell">
                                             {endpoint.latency ? `${endpoint.latency}ms` : ""}
                                             {!endpoint.latency && <XIcon size={12} />}
                                         </TableCell>
-                                        <TableCell className="text-[13px] opacity-80">
+                                        <TableCell className="w-[120px] text-[13px] opacity-80 hidden sm:table-cell">
                                             {endpoint.lastPingedAt ? new Date(endpoint.lastPingedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "Never"}
                                         </TableCell>
-                                        <TableCell className="text-[13px] opacity-80">{endpoint.intervalMinutes}m</TableCell>
+                                        <TableCell className="w-[80px] text-[13px] opacity-80 hidden lg:table-cell">{endpoint.intervalMinutes}m</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>

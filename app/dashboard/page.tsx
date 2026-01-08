@@ -51,7 +51,7 @@ export default async function Dashboard() {
                                 {alertLogs.length > 0 ? (
                                     <>
                                         {alertLogs.map((log: any, index: number) => (
-                                            <div key={index} className="h-[50px] rounded-[2px] border border-[var(--error)]/18 bg-[var(--error)]/8 flex items-center px-[10px] text-[14px] gap-[10px] select-none cursor-pointer">
+                                            <Link href={`/project/${log.projectId}/e/${log.endpointId}/logs`} key={index} className="h-[50px] rounded-[2px] border border-[var(--error)]/18 bg-[var(--error)]/8 flex items-center px-[10px] text-[14px] gap-[10px] select-none cursor-pointer">
                                                 <XCircle size={16} className="text-[var(--error)]" />
                                                 <p className="opacity-[0.5] truncate w-[90px]">{projectMap[log.projectId] || "Project"}</p>
                                                 <ChevronRight size={14} className="opacity-[0.7]" />
@@ -59,10 +59,10 @@ export default async function Dashboard() {
                                                 <p className="opacity-[0.8] text-[12px] pr-[4px]" suppressHydrationWarning>
                                                     {new Date(log.timestamp).toLocaleTimeString([], { hour: 'numeric' })}
                                                 </p>
-                                            </div>
+                                            </Link>
                                         ))}
                                         <Link href="/dashboard/logs">
-                                            <Button className="w-full h-[30px] text-[12px]" variant="ghost">More</Button>
+                                            <Button className="w-full h-[34px] text-[12px]" variant="ghost">More</Button>
                                         </Link>
                                     </>
                                 ) : (
@@ -85,7 +85,7 @@ export default async function Dashboard() {
                                 {recentLogs.length > 0 ? (
                                     <>
                                         {recentLogs.map((log: any, index: number) => (
-                                            <div key={index} className={`h-[50px] rounded-[2px] border flex items-center px-[10px] text-[14px] gap-[10px]  select-none cursor-pointer ${log.status === "OK" ? "border-[var(--success)]/18 bg-[var(--success)]/8" : "border-[var(--error)]/18 bg-[var(--error)]/8"}`}>
+                                            <Link href={`/project/${log.projectId}/e/${log.endpointId}/logs`} key={index} className={`h-[50px] rounded-[2px] border flex items-center px-[10px] text-[14px] gap-[10px]  select-none cursor-pointer ${log.status === "OK" ? "border-[var(--success)]/18 bg-[var(--success)]/8" : "border-[var(--error)]/18 bg-[var(--error)]/8"}`}>
                                                 {log.status === "OK" ? (
                                                     <CheckCircle size={16} className="text-[var(--success)]/80" />
                                                 ) : (
@@ -97,10 +97,10 @@ export default async function Dashboard() {
                                                         {log.status === "OK" ? `${log.statusCode} ok` : log.status}
                                                     </p>
                                                 </div>
-                                            </div>
+                                            </Link>
                                         ))}
                                         <Link href="/dashboard/logs">
-                                            <Button className="w-full h-[30px] text-[12px]" variant="ghost">More</Button>
+                                            <Button className="w-full h-[34px] text-[12px]" variant="ghost">More</Button>
                                         </Link>
                                     </>
                                 ) : (
