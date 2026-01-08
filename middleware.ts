@@ -28,7 +28,9 @@ function isOnboarded(metadata: unknown): boolean {
 
 export default clerkMiddleware(async (auth, req) => {
     const { userId, sessionClaims } = await auth();
-    const onboardingCompleted = (sessionClaims as any)?.metadata?.onboardingCompleted === true;
+    const onboardingCompleted =
+        (sessionClaims as any)?.metadata?.onboardingCompleted === true ||
+        (sessionClaims as any)?.publicMetadata?.onboardingCompleted === true;
 
     // 🔒 Protect private routes
     if (isProtectedRoute(req)) {
@@ -36,7 +38,7 @@ export default clerkMiddleware(async (auth, req) => {
     }
 
     // 🚧 Logged-in but not onboarded → force onboarding
-    if (userId && isProtectedRoute(req) && !onboardingCompleted) {
+    if (userId && !onboardingCompleted && !isOnboardingRoute(req) && !isAuthRoute(req)) {
         return NextResponse.redirect(new URL("/welcome", req.url));
     }
 
@@ -44,6 +46,8 @@ export default clerkMiddleware(async (auth, req) => {
     if (userId && isOnboardingRoute(req) && onboardingCompleted) {
         return NextResponse.redirect(new URL("/dashboard", req.url));
     }
+
+    // Redirect unauthenticated users trying to access onboarding
     if (!userId && isOnboardingRoute(req)) {
         return NextResponse.redirect(new URL("/login", req.url));
     }
