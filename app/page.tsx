@@ -160,7 +160,7 @@ export default function Page() {
                                 <Image alt="" src="/landingpage/serverFrameworks/goLogo.png" height={40} width={40} />
                             </div>
                             <div className="px-[10px]">
-                                <Image alt="" src="/landingpage/serverFrameworks/nestJS.svg" height={40} width={40} />
+                                <Image alt="" src="/landingpage/serverFrameworks/NestJS.svg" height={40} width={40} />
                             </div>
                         </Marquee>
                     </div>
