@@ -231,7 +231,7 @@ export default function ProjectPage() {
                                             {endpoint.latency ? `${endpoint.latency}ms` : ""}
                                             {!endpoint.latency && <XIcon size={12} />}
                                         </TableCell>
-                                        <TableCell className="w-[120px] text-[13px] opacity-80 hidden sm:table-cell">
+                                        <TableCell suppressHydrationWarning className="w-[120px] text-[13px] opacity-80 hidden sm:table-cell">
                                             {endpoint.lastPingedAt ? new Date(endpoint.lastPingedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "Never"}
                                         </TableCell>
                                         <TableCell className="w-[80px] text-[13px] opacity-80 hidden lg:table-cell">{endpoint.intervalMinutes}m</TableCell>

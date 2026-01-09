@@ -112,7 +112,7 @@ export default function Page() {
                 <Image alt="" src="/landingpage/dashboardImg.png" height={400} width={600} className="object-contain max-w-[800px] w-full transition-all duration-300 hover:translate-y-[0px] md:translate-y-[10px]" unoptimized preload />
             </div>
 
-            <div className="h-[80vh] w-[90%] bottom-[-10%] translate-y-[50%] translate-x-[-50%] left-[50%] bg-primary absolute rounded-[50%] blur-[200px] dark:opacity-[0.8] animate-pulse" />
+            <div className="h-[50vh] md:h-[80vh] w-[90%] bottom-[-10%] translate-y-[50%] translate-x-[-50%] left-[50%] bg-primary absolute rounded-[50%] blur-[150px] dark:opacity-[0.8] animate-pulse" />
 
         </div>
 
@@ -149,8 +149,8 @@ export default function Page() {
                     <p className="text-[white] mix-blend-difference text-[20px]">Works with <span className="font-[600]">every </span>framework</p>
 
                     <div className="relative">
-                        <div className="h-full w-[60px] absolute left-0 bg-gradient-to-r from-background from-[20%] to-transparent z-[2]" />
-                        <div className="h-full w-[60px] absolute right-0 bg-gradient-to-l from-background from-[20%] to-transparent z-[2]" />
+                        <div className="h-full w-[40px] absolute left-0 bg-gradient-to-r from-background from-[20%] to-transparent z-[2]" />
+                        <div className="h-full w-[40px] absolute right-0 bg-gradient-to-l from-background from-[20%] to-transparent z-[2]" />
 
                         <Marquee className="[--duration:20s] max-w-[400px] w-full">
                             <div className="px-[10px]">
