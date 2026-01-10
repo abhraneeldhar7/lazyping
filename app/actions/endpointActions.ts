@@ -5,12 +5,14 @@ import { EndpointType, methodType, PingLog } from "@/lib/types";
 import { auth } from "@clerk/nextjs/server";
 import { revalidatePath } from "next/cache";
 import { v4 as uuidv4 } from "uuid";
+import { pingEndpoint } from "./pingActions";
 
 /**
  * Adds a monitored endpoint to a project
  */
 export async function createEndpoint(data: {
     url: string;
+    name: string;
     method: methodType;
     intervalMinutes: number;
     expectedResponse: string;
@@ -30,6 +32,7 @@ export async function createEndpoint(data: {
         projectId: data.projectId,
         endpointId: uuidv4(),
         url: data.url,
+        endpointName: data.name,
         method: data.method,
         intervalMinutes: data.intervalMinutes,
         expectedResponse: data.expectedResponse,
@@ -45,6 +48,7 @@ export async function createEndpoint(data: {
     };
 
     await db.collection("endpoints").insertOne(newEndpoint);
+    await pingEndpoint(newEndpoint.endpointId)
     revalidatePath(`/project/${data.projectId}`);
     return (newEndpoint.endpointId)
 }
@@ -92,6 +96,7 @@ export async function updateEndpoint(data: EndpointType) {
         { endpointId: data.endpointId },
         {
             $set: {
+                endpointName: data.endpointName.trim(),
                 url: data.url,
                 method: data.method,
                 intervalMinutes: data.intervalMinutes,

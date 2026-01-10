@@ -99,7 +99,7 @@ export default function LogsTable({ logsData }: { logsData: PingLog[] }) {
                                 }
                             </TableCell>
                             <TableCell className="w-[70px] md:table-cell">{log.statusCode}</TableCell>
-                            <TableCell className="w-[90px] lg:table-cell">{log.latencyMs}</TableCell>
+                            <TableCell className="w-[90px] lg:table-cell">{log.latencyMs} ms</TableCell>
                             <TableCell suppressHydrationWarning className="w-[100px] opacity-[0.7] text-right">{
                                 (new Date(log.timestamp)).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                             }</TableCell>

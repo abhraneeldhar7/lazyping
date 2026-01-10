@@ -1,3 +1,4 @@
+"use client"
 import { PingLog } from "@/lib/types"
 import LogsTable from "../logsTable"
 import { Table, TableBody, TableCell, TableRow } from "../ui/table";

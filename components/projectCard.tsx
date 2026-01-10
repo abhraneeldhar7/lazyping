@@ -1,4 +1,4 @@
-import { ChartNoAxesColumnIncreasing, Server, CheckCircle } from "lucide-react";
+import { ChartNoAxesColumnIncreasing, Server, CheckCircle, OctagonAlert, XCircle } from "lucide-react";
 import BarUptime from "./barUptime";
 import Link from "next/link";
 import { ProjectType } from "@/lib/types";
@@ -16,13 +16,13 @@ export default async function ProjectCard({ project }: { project: ProjectType })
     const getStatusInfo = (status: ProjectType["overallStatus"]) => {
         switch (status) {
             case "OPERATIONAL":
-                return { label: "Operational", color: "text-[var(--success)]", icon: CheckCircle };
+                return { label: "Operational", color: "text-[#00ff9e]", icon: CheckCircle };
             case "DEGRADED":
-                return { label: "Degraded", color: "text-amber-500", icon: CheckCircle };
+                return { label: "Degraded", color: "text-amber-500", icon: OctagonAlert };
             case "PARTIAL_OUTAGE":
-                return { label: "Partial Outage", color: "text-orange-500", icon: CheckCircle };
+                return { label: "Partial Outage", color: "text-orange-500", icon: OctagonAlert };
             case "MAJOR_OUTAGE":
-                return { label: "Major Outage", color: "text-red-500", icon: CheckCircle };
+                return { label: "Major Outage", color: "text-red-500", icon: XCircle };
             default:
                 return { label: "Unknown", color: "text-muted-foreground", icon: Server };
         }

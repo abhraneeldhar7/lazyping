@@ -60,7 +60,7 @@ export async function deleteProject(projectId: string) {
     await db.collection("projects").deleteOne({ projectId: projectId, ownerId: userId });
     await db.collection("endpoints").deleteMany({ projectId: projectId });
     await db.collection("logs").deleteMany({ projectId: projectId });
-    revalidatePath("/dashboard");
+    // revalidatePath("/dashboard");
 }
 
 export async function saveProject(projectData: ProjectType) {
@@ -104,4 +104,17 @@ export async function getAllUserProjectLogs() {
         .toArray() as PingLog[] | [];
 
     return JSON.parse(JSON.stringify(logs));
+}
+
+export async function pauseProject(projectId: string) {
+    const { userId } = await auth();
+    if (!userId) throw new Error("Unauthorized");
+
+    const db = await getDB();
+    const project = await db.collection("projects").findOne({ projectId: projectId, ownerId: userId });
+    if (!project) throw new Error("Unauthorized");
+
+    await db.collection("endpoints").updateMany({ projectId: projectId }, { $set: { enabled: false } });
+
+    revalidatePath(`/project/${projectId}`);
 }

@@ -1,12 +1,16 @@
 import { getEndpointDetails, getEndpointLogs } from "@/app/actions/endpointActions";
 import CopyUrl from "@/components/endpoint/copyUrl";
 import EndpointEnableToggle from "@/components/endpoint/enableToggle";
+import PingEndpoint from "@/components/endpoint/pingEndpoint";
 import { ChartAreaInteractive } from "@/components/latencyChart/latencyChart";
 import LogsPageComponent from "@/components/logsComponent";
+import LogsTable from "@/components/logsTable";
 import NextPingComponent from "@/components/nextPing";
+import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { EndpointType } from "@/lib/types";
-import { CheckIcon, CopyIcon, OctagonAlert, PauseIcon, SettingsIcon, Undo2Icon, XIcon } from "lucide-react";
+import { CheckIcon, CopyIcon, OctagonAlert, PauseIcon, RssIcon, SettingsIcon, Undo2Icon, XIcon } from "lucide-react";
+import Link from "next/link";
 
 export default async function EndpointPage({ params }: { params: Promise<{ endpointId: string }> }) {
     const { endpointId } = await params;
@@ -24,6 +28,10 @@ export default async function EndpointPage({ params }: { params: Promise<{ endpo
 
 
                 <div className="flex flex-col gap-[20px]">
+                    <div className="flex flex-col">
+                        <Label>Endpoint Name</Label>
+                        <p className="h-[18px] text-[18px]">{endpointDetails.endpointName}</p>
+                    </div>
                     <div className="flex flex-col gap-[4px]">
                         <Label>Endpoint url</Label>
                         <div className="flex gap-[10px] items-center">
@@ -84,7 +92,13 @@ export default async function EndpointPage({ params }: { params: Promise<{ endpo
                 <ChartAreaInteractive logs={logs} />
             </div>
 
-
+            <div className="flex flex-col gap-[10px] mt-[10px]">
+                <PingEndpoint id={endpointId} />
+                <LogsTable logsData={logs.slice(0, 5)} />
+                <Link href={`/project/${endpointDetails.projectId}/e/${endpointId}/logs`} className="md:w-fit w-full mx-auto mt-[10px]">
+                    <Button variant="ghost">See all endpoint logs</Button>
+                </Link>
+            </div>
 
         </div>
     )

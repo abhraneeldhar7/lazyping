@@ -9,10 +9,10 @@ export default function FooterComponent() {
 
             <div className="md:p-[50px] p-[15px] flex justify-between gap-[50px] md:flex-row flex-col">
                 <div>
-                    <div className="flex items-center gap-[15px]">
+                    <Link href="/" className="flex items-center gap-[15px]">
                         <Image src="/appLogo.png" height={28} width={28} alt="" />
                         <h1>LazyPing</h1>
-                    </div>
+                    </Link>
                     <p className="mt-[15px] max-w-[300px] opacity-[0.8] text-[14px]">LazyPing is a service which pings servers and alerts outages before users notice.</p>
                 </div>
 

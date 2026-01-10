@@ -9,9 +9,10 @@ export default function DashboardTabs() {
 
     const dashboardTabs = [
         { label: "Overview", href: "/dashboard" },
-        { label: "Pages", href: "/dashboard/pages" },
+        { label: "Public Pages", href: "/dashboard/public-pages" },
         { label: "Logs", href: "/dashboard/logs" },
-        // { label: "Settings", href: "/dashboard/settings" },
+        { label: "Integrations", href: "/integrations" },
+        { label: "Settings", href: "/dashboard/settings" },
     ]
 
     return (

@@ -77,7 +77,16 @@ export default function EndpointSettingsClientPage({ endpointDetails }: { endpoi
             <div className="flex flex-col gap-[30px]">
 
                 <div className="flex flex flex-col gap-[5px]">
-                    <Label>Endpoint url</Label>
+                    <Label>Endpoint Name</Label>
+                    <Input placeholder={endpointDetails.endpointName} defaultValue={endpointDetails.endpointName} onChange={(e) => {
+
+                        setEndpointDetailsUpdated({ ...endpointDetailsUpdated, endpointName: e.target.value })
+
+                    }} className="md:w-[300px] w-full" />
+                </div>
+
+                <div className="flex flex flex-col gap-[5px]">
+                    <Label>Endpoint URL</Label>
                     <div className="flex gap-[10px]">
                         <Input placeholder={endpointDetails.url} defaultValue={endpointDetails.url} onChange={(e) => {
                             if (e.target.value.length == 0) {

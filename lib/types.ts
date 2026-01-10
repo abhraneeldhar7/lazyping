@@ -19,7 +19,7 @@ export type endpointStatus = "UP" | "DOWN" | "DEGRADED" | "MAINTENANCE"
 export interface EndpointType {
     endpointId: string,
     projectId: string,
-
+    endpointName: string,
     url: string,
     method: methodType,
     expectedResponse: string | null,
@@ -52,4 +52,13 @@ export interface PingLog {
     latencyMs: number | null,
     timestamp: Date,
     logSummary: string
+}
+
+export interface PublicPageType {
+    projectId: string,
+    projectName: string,
+    siteUrl: string,
+    pageSlug: string,
+    enabled: boolean,
+    logoUrl: string | null,
 }

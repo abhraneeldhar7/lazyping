@@ -1,14 +1,13 @@
-"use client"
 import ChartsThing from "@/components/landingpageComp/chartsThing";
 import LogsThing from "@/components/landingpageComp/logsThing";
 import { Button } from "@/components/ui/button";
 import { Marquee } from "@/components/ui/marquee";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { HamburgerIcon, MenuIcon, XIcon } from "lucide-react";
+import { MenuIcon, XIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function Page() {
+export default function RootPage() {
 
     const smallMarqueeList = ["Anti Sleep", "Performance Tracker", "Down Detector", "Public status page", "Latency tracker", "Alert Integrations"]
 
@@ -73,7 +72,7 @@ export default function Page() {
 
             <div className="absolute top-0 z-[-2] w-full h-[40vh]">
                 <div className="relative w-full h-full">
-                    <div className="opacity-[0.15] dark:opacity-[0.08] w-full h-full bg-background bg-[linear-gradient(to_right,var(--foreground)_1px,transparent_1px),linear-gradient(to_bottom,var(--foreground)_1px,transparent_1px)] bg-size-[30px_30px]" />
+                    <div className="opacity-[0.15] dark:opacity-[0.1] w-full h-full bg-background bg-[linear-gradient(to_right,var(--foreground)_1px,transparent_1px),linear-gradient(to_bottom,var(--foreground)_1px,transparent_1px)] bg-size-[30px_30px]" />
                     <div className="h-full w-full absolute bottom-0 bg-gradient-to-t from-background from-[30%] to-transparent z-[2]" />
                 </div>
             </div>
@@ -109,7 +108,7 @@ export default function Page() {
             </div>
 
             <div className="px-[10px] z-[2]">
-                <Image alt="" src="/landingpage/dashboardImg.png" height={400} width={600} className="object-contain max-w-[800px] w-full transition-all duration-300 hover:translate-y-[0px] md:translate-y-[10px]" unoptimized preload />
+                <Image alt="" src="/landingpage/dashboardImg1.png" height={400} width={600} className="object-contain max-w-[800px] w-full transition-all duration-300 hover:translate-y-[0px] md:translate-y-[10px]" unoptimized priority />
             </div>
 
             <div className="h-[50vh] md:h-[80vh] w-[90%] bottom-[-10%] translate-y-[50%] translate-x-[-50%] left-[50%] bg-primary absolute rounded-[50%] blur-[150px] dark:opacity-[0.8] animate-pulse" />

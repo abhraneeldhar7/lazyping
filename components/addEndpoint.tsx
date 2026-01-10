@@ -18,6 +18,7 @@ export default function AddEndpointBtn({ projectId }: { projectId: string }) {
     const router = useRouter();
     const defaultNewEndpoint = {
         url: "",
+        name: "",
         method: "GET" as methodType,
         expectedResponse: "",
         headers: null,
@@ -108,6 +109,16 @@ export default function AddEndpointBtn({ projectId }: { projectId: string }) {
                     }
 
                     <div className="flex flex-col gap-[20px] mt-[10px]">
+
+
+                        <div className="flex flex-col gap-[10px]">
+                            <Label>Endpoint name</Label>
+                            <Input placeholder="root / database / payment gateway..." value={newEndpoint.name} onChange={(e) => {
+                                setNewEndpoint(prev => {
+                                    return { ...prev, name: e.target.value }
+                                })
+                            }} />
+                        </div>
                         <div className="flex flex-col gap-[10px]">
                             <Label>Endpoint route</Label>
                             <div className="flex gap-[10px]">
@@ -199,7 +210,7 @@ export default function AddEndpointBtn({ projectId }: { projectId: string }) {
                     <DialogFooter className="mt-[10px]">
                         {!loading ? <>
                             <DialogClose>Cancel</DialogClose>
-                            <Button variant="shinny" disabled={newEndpoint.url.length == 0} onClick={() => {
+                            <Button variant="shinny" disabled={newEndpoint.url.length == 0 || newEndpoint.name.length == 0} onClick={() => {
                                 handleCreate();
                             }}>Confirm</Button>
                         </> :

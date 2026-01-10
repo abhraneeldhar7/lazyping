@@ -15,6 +15,7 @@ export default function ProjectTabs({ projectId }: { projectId: string }) {
     const projectTabs = [
         { label: "Dashboard", href: "/dashboard" },
         { label: "Overview", href: `/project/${projectId}` },
+        { label: "Public Page", href: `/project/${projectId}/public-page` },
         { label: "Logs", href: `/project/${projectId}/logs` },
         { label: "Settings", href: `/project/${projectId}/settings` },
     ]

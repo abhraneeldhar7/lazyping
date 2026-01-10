@@ -11,6 +11,7 @@ import { ProjectType } from "@/lib/types";
 import { getEndpoints } from "@/app/actions/endpointActions";
 import NextPingComponent from "@/components/nextPing";
 import { AutoRefresh } from "@/components/autoRefresh";
+import LogsPageComponent from "@/components/logsComponent";
 
 export default async function Dashboard() {
 
@@ -46,7 +47,7 @@ export default async function Dashboard() {
                     <div className="flex flex-col gap-[20px] w-full max-w-[400px]">
                         <div className="">
                             <Label className="pl-[5px]">Alert</Label>
-                            <div className={`rounded-[6px] border border-border/40 w-full mt-[10px] bg-muted dark:bg-muted/80 p-[4px] flex flex-col gap-[4px]`}>
+                            <div className={`rounded-[6px] border border-border/40 w-full mt-[10px] bg-muted dark:bg-muted/30 p-[4px] flex flex-col gap-[4px]`}>
 
                                 {alertLogs.length > 0 ? (
                                     <>
@@ -80,7 +81,7 @@ export default async function Dashboard() {
 
                         <div className="">
                             <Label className="pl-[5px]">Recent</Label>
-                            <div className="rounded-[6px] border-border/40 border w-full mt-[10px] bg-muted dark:bg-muted/80 text-[14px] p-[4px] flex flex-col gap-[4px]">
+                            <div className="rounded-[6px] border-border/40 border w-full mt-[10px] bg-muted dark:bg-muted/30 text-[14px] p-[4px] flex flex-col gap-[4px]">
 
                                 {recentLogs.length > 0 ? (
                                     <>
@@ -152,5 +153,13 @@ export default async function Dashboard() {
                 </div>
 
             </div>
+
+            {/* <div className="flex flex-col gap-[20px] mt-[30px]">
+                <LogsPageComponent logs={allLogs.slice(0, 5)} />
+                <Link href="/dashboard/logs" className="md:w-fit w-full mx-auto">
+                    <Button variant="ghost">See all logs</Button>
+                </Link>
+            </div> */}
+
         </div>)
 }

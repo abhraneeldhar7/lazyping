@@ -1,4 +1,5 @@
-import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
+"use client"
+import { Area, AreaChart, XAxis } from "recharts";
 import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "../ui/chart";
 
 export default function ChartsThing() {

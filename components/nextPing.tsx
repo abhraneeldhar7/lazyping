@@ -2,6 +2,7 @@
 import { EndpointType } from "@/lib/types";
 import { Loader2 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
 
 export default function NextPingComponent({ endpoints }: { endpoints: EndpointType[] }) {
     const [now, setNow] = useState<number>(0);
@@ -70,16 +71,21 @@ export default function NextPingComponent({ endpoints }: { endpoints: EndpointTy
                     </div>
 
                     <div className="p-[3px] h-full">
-                        <div
-                            className="flex items-center justify-center text-[var(--success)] bg-secondary shadow-md min-w-[70px] w-[70px] md:w-[80px] rounded-[4px] h-full text-[14px] select-none"
-                            suppressHydrationWarning
-                        >
-                            {isPinging ? (
-                                <Loader2 className="animate-spin h-4 w-4" />
-                            ) : (
-                                <p>{timeString}</p>
-                            )}
-                        </div>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <div
+                                    className="flex items-center justify-center text-[var(--success)] bg-secondary shadow-md min-w-[70px] w-[70px] md:w-[80px] rounded-[4px] h-full text-[14px] select-none"
+                                    suppressHydrationWarning
+                                >
+                                    {isPinging ? (
+                                        <Loader2 className="animate-spin h-4 w-4" />
+                                    ) : (
+                                        <p>{timeString}</p>
+                                    )}
+                                </div>
+                            </TooltipTrigger>
+                            <TooltipContent>Time to next ping</TooltipContent>
+                        </Tooltip>
                     </div>
                 </>
             )}

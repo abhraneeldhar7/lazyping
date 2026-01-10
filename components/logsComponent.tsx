@@ -72,7 +72,7 @@ export default function LogsPageComponent({ logs }: { logs: PingLog[] }) {
                                 <PopoverClose asChild key={project.projectId}>
                                     <Button
                                         variant={selectedProjectId === project.projectId ? "secondary" : "ghost"}
-                                        className="text-[12px] flex justify-start h-[30px] whitespace-nowrap"
+                                        className="text-[12px] flex justify-start h-[30px] whitespace-nowrap truncate px-[10px]"
                                         onClick={() => setSelectedProjectId(project.projectId)}
                                     >
                                         {project.projectName}

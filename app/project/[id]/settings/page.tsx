@@ -1,8 +1,8 @@
 "use client"
-import { deleteProject, saveProject } from "@/app/actions/projectActions";
+import { deleteProject, pauseProject, saveProject } from "@/app/actions/projectActions";
 import { useProject } from "@/components/projectContext"
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label"
 import { GithubIcon, PauseIcon, Trash2Icon } from "lucide-react";
@@ -17,6 +17,8 @@ export default function ProjectSettingsPage() {
     if (!projectData) return null;
     const [newName, setNewName] = useState("");
     const [loading, setLoading] = useState(false);
+
+
 
     return (<div className="flex flex-col gap-[30px]">
 
@@ -51,7 +53,27 @@ export default function ProjectSettingsPage() {
             <h1 className="text-[19px]">Pause project</h1>
             <div className="flex gap-[20px] justify-between items-end flex-wrap">
                 <p className="opacity-[0.8]">Pause pinging and monitoring all the endpoints</p>
-                <Button variant="secondary" className="mx-auto md:mx-0 h-[40px] w-[150px]"><PauseIcon fill="var(--foreground)" /> Pause project</Button>
+
+                <Dialog>
+                    <DialogTrigger asChild>
+                        <Button variant="secondary" className="mx-auto md:mx-0 h-[40px] w-[150px]"><PauseIcon fill="var(--foreground)" /> Pause project</Button>
+                    </DialogTrigger>
+                    <DialogContent className="gap-[50px]">
+                        <DialogHeader>
+                            <DialogTitle>Pause project {projectData.projectName} ?</DialogTitle>
+                            <DialogDescription>This will pause pinging and monitoring all the endpoints</DialogDescription>
+                        </DialogHeader>
+                        <DialogFooter>
+                            <DialogClose>Cancel</DialogClose>
+                            <Button loading={loading} onClick={async () => {
+                                setLoading(true);
+                                await pauseProject(projectData.projectId);
+                                toast.info("Project paused");
+                                router.push(`/project/${projectData.projectId}`);
+                            }}><PauseIcon fill="var(--foreground)" />  Pause</Button>
+                        </DialogFooter>
+                    </DialogContent>
+                </Dialog>
             </div>
         </div>
 
@@ -64,18 +86,21 @@ export default function ProjectSettingsPage() {
 
                 <Dialog>
                     <DialogTrigger asChild>
-                        <Button variant="destructive" className="mx-auto md:mx-0 h-[40px] w-[150px]"><Trash2Icon /> Delete project</Button>
+                        <Button variant="destructive" className="mx-auto md:mx-0 h-[40px] w-[150px]"><Trash2Icon />Delete project</Button>
                     </DialogTrigger>
-                    <DialogContent>
-                        <DialogTitle>Delete project {projectData.projectName} ?</DialogTitle>
-                        <DialogDescription>This will delete the project, all the endpoints and logs</DialogDescription>
+                    <DialogContent className="gap-[50px]">
+                        <DialogHeader>
+                            <DialogTitle>Delete project {projectData.projectName} ?</DialogTitle>
+                            <DialogDescription>This will delete the project, all the endpoints and logs</DialogDescription>
+                        </DialogHeader>
                         <DialogFooter>
                             <DialogClose>Cancel</DialogClose>
-                            <Button variant="destructive" onClick={() => {
-                                deleteProject(projectData.projectId);
+                            <Button variant="destructive" loading={loading} onClick={async () => {
+                                setLoading(true);
+                                await deleteProject(projectData.projectId);
                                 toast.error("Deleted project")
                                 router.push("/dashboard");
-                            }}>Delete</Button>
+                            }}><Trash2Icon /> Delete</Button>
                         </DialogFooter>
                     </DialogContent>
                 </Dialog>

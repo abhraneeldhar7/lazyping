@@ -59,8 +59,8 @@ export default function ProjectPage() {
             for (const endpoint of activeEndpoints) {
                 await pingEndpoint(endpoint.endpointId);
             }
-            router.refresh();
         })();
+        router.refresh();
 
         toast.promise(promise, {
             success: 'All endpoints pinged',
@@ -205,30 +205,30 @@ export default function ProjectPage() {
                                                 })()}
                                             </div>
                                         </TableCell>
-                                        <TableCell className="w-[140px]">
+                                        <TableCell className="w-[140px] leading-[1em]">
                                             {!endpoint.enabled ?
-                                                <div className="rounded-full bg-[#6b7280]/10 border border-[#6b7280]/30 py-[2px] pt-[3px] px-[8px] w-fit text-[11px] text-[#6b7280] flex items-center gap-[4px]">
-                                                    Paused <PauseIcon size={11} />
+                                                <div className="rounded-full bg-[#6b7280]/10 border border-[#6b7280]/30 py-[3px] pt-[4px] px-[8px] w-fit text-[11px] text-[#6b7280] flex items-center gap-[4px]">
+                                                    Paused <PauseIcon fill="var(--foreground)" size={11} />
                                                 </div> :
                                                 endpoint.currentStatus === "UP" ?
-                                                    <div className="rounded-full bg-[#00ff9e]/10 border border-[#00ff9e]/30 py-[2px] pt-[3px] px-[8px] w-fit text-[11px] text-[#00ff9e] flex items-center gap-[4px]">
+                                                    <div className="rounded-full bg-[#00ff9e]/10 border border-[#00ff9e]/30 py-[3px] pt-[4px] px-[8px] w-fit text-[11px] text-[#00ff9e] flex items-center gap-[4px]">
                                                         Active <CheckIcon size={12} />
                                                     </div> :
                                                     endpoint.currentStatus === "DEGRADED" ?
-                                                        <div className="rounded-full bg-[#ffa500]/10 border border-[#ffa500]/30 py-[2px] pt-[3px] px-[8px] w-fit text-[11px] text-[#ffa500] flex items-center gap-[4px]">
+                                                        <div className="rounded-full bg-[#ffa500]/10 border border-[#ffa500]/30 py-[3px] pt-[4px] px-[8px] w-fit text-[11px] text-[#ffa500] flex items-center gap-[4px]">
                                                             Degraded <OctagonAlert size={12} />
                                                         </div> :
                                                         endpoint.currentStatus === "MAINTENANCE" ?
-                                                            <div className="rounded-full bg-[#3b82f6]/10 border border-[#3b82f6]/30 py-[2px] pt-[3px] px-[8px] w-fit text-[11px] text-[#3b82f6] flex items-center gap-[4px]">
+                                                            <div className="rounded-full bg-[#3b82f6]/10 border border-[#3b82f6]/30 py-[3px] pt-[4px] px-[8px] w-fit text-[11px] text-[#3b82f6] flex items-center gap-[4px]">
                                                                 Maintenance <PauseIcon size={12} />
                                                             </div> :
-                                                            <div className="rounded-full bg-[#ed0707]/10 border border-[#ed0707]/30 py-[2px] pt-[3px] px-[8px] w-fit text-[11px] text-[#ed0707] flex items-center gap-[4px]">
+                                                            <div className="rounded-full bg-[#ed0707]/10 border border-[#ed0707]/30 py-[3px] pt-[4px] px-[8px] w-fit text-[11px] text-[#ed0707] flex items-center gap-[4px]">
                                                                 Down <XIcon size={10} />
                                                             </div>
                                             }
                                         </TableCell>
                                         <TableCell className="w-[90px] text-[13px] opacity-80 hidden md:table-cell">
-                                            {endpoint.latency ? `${endpoint.latency}ms` : ""}
+                                            {endpoint.latency ? `${endpoint.latency} ms` : ""}
                                             {!endpoint.latency && <XIcon size={12} />}
                                         </TableCell>
                                         <TableCell suppressHydrationWarning className="w-[120px] text-[13px] opacity-80 hidden sm:table-cell">

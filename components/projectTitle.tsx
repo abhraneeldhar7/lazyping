@@ -37,7 +37,7 @@ export default function ProjectTitle({ projectName, endpoints }: { projectName: 
                 <>
                     <ChevronRight size={14} className="opacity-[0.3]" />
                     <div className="flex gap-[10px] items-center leading-[1em]">
-                        <Link href={`/project/${projectId}/e/${endpointId}`} className={`select-none cursor-pointer text-[15px] font-medium`} >{endpointDisplay || "Endpoint"}</Link>
+                        <Link href={`/project/${projectId}/e/${endpointId}`} className={`select-none cursor-pointer text-[15px] font-medium`} >{endpoint?.endpointName || "Endpoint"}</Link>
                     </div>
                 </>
             )}
