@@ -26,7 +26,7 @@ export default async function PublicPageEndpointCard({ endpoint }: { endpoint: E
     const StatusIcon = statusInfo.icon;
 
     return (
-        <div className="rounded-[10px] border bg-muted p-[10px] h-[170px] flex justify-between flex-col relative overflow-hidden group transition-all duration-300 cursor-default select-none">
+        <div className="rounded-[10px] border bg-background/40 p-[10px] h-[170px] flex justify-between flex-col relative overflow-hidden group transition-all duration-300 cursor-default select-none">
             <div className="rounded-[50%] h-[20px] w-full absolute bg-foreground blur-[60px] bottom-[30%] left-[-50%] rotate-[-40deg] group-hover:translate-x-[50%] group-hover:translate-y-[-50%] transition-all duration-400 ease-in-out animate-pulse" />
 
             <div className="z-[2] flex flex-col gap-[10px] pl-[5px]">

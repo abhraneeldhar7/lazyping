@@ -1,4 +1,5 @@
 import { getViewerPublicPageData } from "@/app/actions/viewerActions";
+import { ChartAreaInteractive } from "@/components/latencyChart/latencyChart";
 import PublicPageEndpointCard from "@/components/publicPage/endpointCard";
 import { EndpointType, PingLog, ProjectType, PublicPageType } from "@/lib/types";
 import { ArrowUpRight, CheckCircle, LockIcon, OctagonAlert, Server, XCircle } from "lucide-react";
@@ -56,7 +57,7 @@ export default async function StatusPage({ params }: { params: Promise<{ slug: s
     return (
         <div className="relative overflow-hidden">
             {publicPageData.logoUrl &&
-                <Image src={publicPageData.logoUrl} className="h-full w-full absolute z-[-1] top-0 left-0 object-cover blur-[200px] dark:opacity-[0.09] opacity-[0.22]" height={45} width={45} alt="Logo" />
+                <Image src={publicPageData.logoUrl} className="h-full w-full absolute z-[-1] top-0 left-0 object-cover blur-[200px] dark:opacity-[0.09] opacity-[0.12]" height={45} width={45} alt="Logo" />
             }
 
             <div className="min-h-[100vh] flex flex-col gap-[35px] p-[20px] pb-[100px] max-w-[800px] w-full mx-auto relative z-[1]">
@@ -94,6 +95,13 @@ export default async function StatusPage({ params }: { params: Promise<{ slug: s
                             <PublicPageEndpointCard endpoint={endpoint} key={index} />
                         ))}
                     </div>
+                </div>
+
+
+
+
+                <div className="mt-[20px]">
+                    <ChartAreaInteractive logs={logs} hideShadows={true} />
                 </div>
             </div>
         </div>
