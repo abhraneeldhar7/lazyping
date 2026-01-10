@@ -1,11 +1,10 @@
 import { ChartNoAxesColumnIncreasing, Server, CheckCircle, XCircle, OctagonAlert, PauseCircle } from "lucide-react";
 import BarUptime from "../barUptime";
 import { EndpointType } from "@/lib/types";
-import { getEndpointLogs } from "@/app/actions/endpointActions";
+import { PingLog } from "@/lib/types";
 import { formatRelativeTime } from "@/lib/utils";
 
-export default async function PublicPageEndpointCard({ endpoint }: { endpoint: EndpointType }) {
-    const logs = await getEndpointLogs(endpoint.endpointId);
+export default function PublicPageEndpointCard({ endpoint, logs }: { endpoint: EndpointType, logs: PingLog[] }) {
 
     const getStatusInfo = (status: EndpointType["currentStatus"]) => {
         switch (status) {

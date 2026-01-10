@@ -92,7 +92,11 @@ export default async function StatusPage({ params }: { params: Promise<{ slug: s
                     <h3 className="text-[14px] opacity-[0.7]">Services</h3>
                     <div className="grid md:grid-cols-2 grid-cols-1 gap-[12px]">
                         {endpoints.map((endpoint, index) => (
-                            <PublicPageEndpointCard endpoint={endpoint} key={index} />
+                            <PublicPageEndpointCard
+                                endpoint={endpoint}
+                                logs={logs.filter(log => log.endpointId === endpoint.endpointId)}
+                                key={index}
+                            />
                         ))}
                     </div>
                 </div>

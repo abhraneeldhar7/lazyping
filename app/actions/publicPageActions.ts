@@ -32,8 +32,6 @@ const RESERVED_SLUGS = [
 ];
 
 export async function getPublicPageFromID(projectId: string) {
-    const { userId } = await auth();
-    if (!userId) return null;
     const db = await getDB();
     const publicPage = await db.collection("public-page").findOne({ projectId });
     return (JSON.parse(JSON.stringify(publicPage)))

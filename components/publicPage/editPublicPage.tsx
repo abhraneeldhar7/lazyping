@@ -82,11 +82,8 @@ export default function EditPublicStatusPage({ pageData }: { pageData: PublicPag
                 </Link>
             </div>
 
-            <div className="flex gap-[20px] md:flex-row flex-col items-center md:items-start">
-
-
-
-                <div className={`rounded-[14px] flex items-center justify-center shadow-md ${!newPageData.logoUrl && " bg-muted border-[2px]"} overflow-hidden h-[40px] w-[40px]`}>
+            <div className="flex gap-[20px] items-start">
+                <div className={`rounded-[14px] flex items-center justify-center shadow-md ${!newPageData.logoUrl && " bg-muted border-[2px]"} overflow-hidden h-[40px] w-[40px] min-w-[40px]`}>
                     {newPageData.logoUrl &&
                         <Image src={newPageData.logoUrl} unoptimized height={40} width={40} alt="Site Logo" className="object-cover h-full w-full" />
                     }

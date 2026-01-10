@@ -14,7 +14,7 @@ export default function RootPage() {
 
     return <div className="relative font-[Satoshi]">
 
-        <div className="h-[50px] backdrop-blur-[30px] fixed top-0 left-0 w-full z-[10] flex items-center px-[15px] justify-between">
+        <div className="h-[50px] backdrop-blur-[30px] fixed top-0 left-0 w-full z-[10] flex items-center px-[15px] justify-between md:hidden">
             <Link href="/" className="md:hidden">
                 <Image src="/appLogo.png" alt="" height={27} width={27} />
             </Link>
@@ -103,12 +103,14 @@ export default function RootPage() {
                     </span>
                 </h1>
 
-                <Button variant="shinny" className="rounded-[0px] text-[24px] h-[50px] leading-[1em] px-[25px]">Activate</Button>
+                <Link href="/login">
+                    <Button variant="shinny" className="rounded-[0px] text-[24px] h-[50px] leading-[1em] px-[25px]">Activate</Button>
+                </Link>
 
             </div>
 
             <div className="px-[10px] z-[2]">
-                <Image alt="" src="/landingpage/dashboardImg1.png" height={400} width={600} className="object-contain max-w-[800px] w-full transition-all duration-300 hover:translate-y-[0px] md:translate-y-[10px]" unoptimized priority />
+                <Image alt="" src="/landingpage/dashboardImg.png" height={400} width={600} className="object-contain md:h-[60vh] h-full w-fit transition-all duration-300 hover:translate-y-[0px] md:translate-y-[10px]" unoptimized priority />
             </div>
 
             <div className="h-[50vh] md:h-[80vh] w-[90%] bottom-[-10%] translate-y-[50%] translate-x-[-50%] left-[50%] bg-primary absolute rounded-[50%] blur-[150px] dark:opacity-[0.8] animate-pulse" />

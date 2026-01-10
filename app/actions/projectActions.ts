@@ -57,10 +57,15 @@ export async function deleteProject(projectId: string) {
     if (!userId) throw new Error("Unauthorized");
 
     const db = await getDB();
+    const project = await db.collection("projects").findOne({ projectId: projectId, ownerId: userId });
+    if (!project) throw new Error("Project not found or unauthorized");
+
     await db.collection("projects").deleteOne({ projectId: projectId, ownerId: userId });
     await db.collection("endpoints").deleteMany({ projectId: projectId });
     await db.collection("logs").deleteMany({ projectId: projectId });
-    // revalidatePath("/dashboard");
+    await db.collection("public-page").deleteMany({ projectId: projectId });
+
+    revalidatePath("/dashboard");
 }
 
 export async function saveProject(projectData: ProjectType) {
@@ -78,17 +83,38 @@ export async function saveProject(projectData: ProjectType) {
 
 export async function getProjectDetails(projectId: string) {
     const db = await getDB();
-    const { userId } = await auth();
-    if (!userId) throw new Error("Unauthorized");
-    const project = await db.collection("projects").findOne({ projectId: projectId, ownerId: userId }, { projection: { _id: 0 } }) as ProjectType | null;
+    const project = await db.collection("projects").findOne({ projectId: projectId }, { projection: { _id: 0 } }) as ProjectType | null;
     return project;
 }
 
-export async function getProjectLogs(projectId: string) {
+export async function getProjectLogs(projectId: string, limit?: number) {
     const db = await getDB();
-    const logs = await db.collection("logs").find({ projectId: projectId }, { projection: { _id: 0 } })
-        .sort({ timestamp: -1 })
-        .toArray() as PingLog[] | [];
+    const { userId } = await auth().catch(() => ({ userId: null }));
+
+    const project = await db.collection("projects").findOne({ projectId: projectId });
+    if (!project) throw new Error("Project not found");
+
+    let query = db.collection("logs").find({ projectId: projectId }, { projection: { _id: 0 } })
+        .sort({ timestamp: -1 });
+
+    if (limit) {
+        query = query.limit(limit);
+    }
+
+    const logs = await query.toArray() as PingLog[] | [];
+
+    const isOwner = userId && userId === project.ownerId;
+
+    if (!isOwner) {
+        return logs.map(log => ({
+            ...log,
+            url: "",
+            responseMessage: null,
+            errorMessage: null,
+            logSummary: ""
+        })) as PingLog[];
+    }
+
     return logs;
 }
 

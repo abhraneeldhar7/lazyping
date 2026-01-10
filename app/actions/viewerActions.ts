@@ -2,6 +2,8 @@
 import { getDB } from "@/lib/db";
 import { EndpointType, PingLog, ProjectType, PublicPageType } from "@/lib/types";
 import { notFound } from "next/navigation";
+import { getProjectDetails, getProjectLogs } from "./projectActions";
+import { getEndpoints } from "./endpointActions";
 
 export async function getViewerPublicPageData(slug: string) {
     try {
@@ -24,20 +26,13 @@ export async function getViewerPublicPageData(slug: string) {
         const projectId = publicPage.projectId;
 
         // 2. Fetch project data
-        const project = await db.collection<ProjectType>("projects").findOne({ projectId }, { projection: { _id: 0 } });
+        const project = await getProjectDetails(projectId)
 
         // 3. Fetch endpoints
-        const endpoints = await db.collection<EndpointType>("endpoints")
-            .find({ projectId }, { projection: { _id: 0 } })
-            .toArray();
+        const endpoints = await getEndpoints(projectId)
 
         // 4. Fetch logs
-        // Fetching last 100 logs for the status page
-        const logs = await db.collection<PingLog>("logs")
-            .find({ projectId }, { projection: { _id: 0 } })
-            .sort({ timestamp: -1 })
-            .limit(100)
-            .toArray();
+        const logs = await getProjectLogs(projectId, 1000)
 
         // 5. Transform project data (security/privacy)
         const transformedProject = project ? {
@@ -45,29 +40,11 @@ export async function getViewerPublicPageData(slug: string) {
             githubIntegration: null
         } : null;
 
-        // 6. Transform endpoints (security/privacy)
-        const transformedEndpoints = endpoints.map(endpoint => ({
-            ...endpoint,
-            url: "",
-            expectedResponse: null,
-            headers: null,
-            body: null
-        }));
-
-        // 7. Transform logs (security/privacy)
-        const transformedLogs = logs.map(log => ({
-            ...log,
-            url: "",
-            responseMessage: null,
-            errorMessage: null,
-            logSummary: ""
-        }));
-
         return JSON.parse(JSON.stringify({
             publicPageData: publicPage,
             projectData: transformedProject,
-            endpoints: transformedEndpoints,
-            logs: transformedLogs
+            endpoints: endpoints,
+            logs: logs
         }));
     } catch (error: any) {
         if (error.message === 'NEXT_NOT_FOUND' || error.digest === 'NEXT_NOT_FOUND') {

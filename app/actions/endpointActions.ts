@@ -56,13 +56,26 @@ export async function createEndpoint(data: {
 
 export async function getEndpoints(projectId: string) {
     const db = await getDB();
-    const { userId } = await auth();
-    if (!userId) throw new Error("Unauthorized");
+    const { userId } = await auth().catch(() => ({ userId: null }));
 
-    const project = await db.collection("projects").findOne({ projectId: projectId, ownerId: userId })
-    if (!project) throw new Error("Unauthorized");
+    const project = await db.collection("projects").findOne({ projectId: projectId });
+    if (!project) throw new Error("Project not found");
 
-    const endpoints = await db.collection<EndpointType>("endpoints").find({ projectId: projectId }, { projection: { _id: 0 } }).toArray();
+    const endpoints = await db.collection<EndpointType>("endpoints")
+        .find({ projectId: projectId }, { projection: { _id: 0 } })
+        .toArray();
+
+    const isOwner = userId && userId === project.ownerId;
+
+    if (!isOwner) {
+        return endpoints.map(e => ({
+            ...e,
+            url: "",
+            expectedResponse: null,
+            headers: null,
+            body: null
+        })) as EndpointType[];
+    }
 
     return endpoints;
 }

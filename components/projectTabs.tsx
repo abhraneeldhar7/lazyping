@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { ScrollArea, ScrollBar } from "./ui/scroll-area"
 
 export default function ProjectTabs({ projectId }: { projectId: string }) {
     const pathname = usePathname()
@@ -30,21 +31,26 @@ export default function ProjectTabs({ projectId }: { projectId: string }) {
     const tabs = isEndpointPage ? endpointTabs : projectTabs
 
     return (
-        <div className="fixed flex px-[15px] items-center top-[50px] h-[40px] backdrop-blur-[20px] bg-background/50 w-full z-[10] gap-[5px]">
-            {tabs.map((tab, index) => {
-                const isActive = pathname === tab.href
-                return (
-                    <Link key={index} href={tab.href}>
-                        <Button
-                            variant="ghost"
-                            className={`font-[400] rounded-[4px] h-[30px] text-[12px] relative`}
-                        >
-                            {tab.label}
-                            <div className={`h-[2px] left-[50%] translate-x-[-50%] rounded-[10px] bg-primary absolute bottom-0 left-0 ${isActive ? "w-[90%]" : "w-0"} transition-all duration-200`} />
-                        </Button>
-                    </Link>
-                )
-            })}
+        <div className="fixed flex items-center top-[50px] backdrop-blur-[20px] bg-background/50 w-full z-[10] py-[5px]">
+            <ScrollArea className="w-full h-full flex items-center justify-center">
+                <div className="flex px-[15px] items-center h-full gap-[5px] min-w-max">
+                    {tabs.map((tab, index) => {
+                        const isActive = pathname === tab.href
+                        return (
+                            <Link key={index} href={tab.href}>
+                                <Button
+                                    variant="ghost"
+                                    className={`font-[400] rounded-[4px] h-[30px] text-[12px] relative`}
+                                >
+                                    {tab.label}
+                                    <div className={`h-[2px] left-[50%] translate-x-[-50%] rounded-[10px] bg-primary absolute bottom-0 left-0 ${isActive ? "w-[90%]" : "w-0"} transition-all duration-200`} />
+                                </Button>
+                            </Link>
+                        )
+                    })}
+                </div>
+                <ScrollBar orientation="horizontal" className="invisible" />
+            </ScrollArea>
         </div>
     )
 }
