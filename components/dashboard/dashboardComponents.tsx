@@ -24,7 +24,7 @@ export async function LogsSections() {
         return acc;
     }, {});
 
-    const alertLogs = allLogs.filter((log: any) => log.status !== "OK").slice(0, 3);
+    const alertLogs = allLogs.filter((log: any) => log.status !== "OK" && log.status !== "RESOLVED").slice(0, 3);
     const recentLogs = allLogs.slice(0, 3);
 
     return (

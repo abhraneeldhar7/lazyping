@@ -5,23 +5,16 @@ import { getDB } from "@/lib/db";
 import redis from "@/lib/redis";
 import { deserialize, serialize } from "@/lib/utils";
 
-// Thresholds
-const LATENCY_DEGRADED_THRESHOLD = 5000; // ms
-const CONSECUTIVE_FAILURES_THRESHOLD = 2;
-const TIMEOUT_MS = 10000; // 10 seconds
+const LATENCY_DEGRADED_THRESHOLD = 5000;
+const OUTAGE_THRESHOLD = 3;
+const TIMEOUT_MS = 10000;
 
-/**
- * Placeholder for GitHub issue alerting
- * TODO: Implement actual GitHub issue creation
- */
-async function alertGithubIssue(endpoint: EndpointType, type: "DOWN" | "RECOVERED") {
-    // Logic to create GitHub issue will be implemented here
-    // This will use the project's GitHub integration settings
+async function projectOutage(endpoint: EndpointType, type: "WARNING" | "OUTAGE" | "RESOLVED", data?: any) {
+    console.log(`[ALERT SYSTEM] Project Outage/Alert: ${type} for ${endpoint.endpointName}`, data);
+    // TODO: Implement external notification system (Email, SMS, Webhook, etc.)
 }
 
-/**
- * Determine the PingLog status based on HTTP response or error
- */
+
 function determinePingLogStatus(
     response: Response | null,
     error: any
@@ -44,30 +37,21 @@ function determinePingLogStatus(
     return "UNKNOWN";
 }
 
-/**
- * Determine the endpoint status (UP/DEGRADED/DOWN) based on ping result
- */
 function determineEndpointStatus(
     pingLogStatus: PingLog['status'],
     latency: number | null
 ): "UP" | "DEGRADED" | "DOWN" {
-    // DOWN: Any error status or timeout
     if (pingLogStatus !== "OK") {
         return "DOWN";
     }
 
-    // DEGRADED: Status 200-299 BUT high latency
     if (latency !== null && latency >= LATENCY_DEGRADED_THRESHOLD) {
         return "DEGRADED";
     }
 
-    // UP: Status 200-299 AND acceptable latency
     return "UP";
 }
 
-/**
- * Generate human-readable log summary
- */
 function generateLogSummary(
     status: PingLog['status'],
     method: string,
@@ -93,23 +77,20 @@ function generateLogSummary(
             return `Client error: ${statusCode} for ${url}`;
         case "HTTP_5XX":
             return `Server error: ${statusCode} for ${url}`;
+        case "RESOLVED":
+            return `Incident resolved. Endpoint is back online.`;
         default:
             const msg = error instanceof Error ? error.message : typeof error === 'string' ? error : "Unknown error";
             return `Ping failed: ${msg}`;
     }
 }
 
-/**
- * Pings a single endpoint and updates its status in the database
- * Implements two-strike rule and alerting logic
- */
 export async function pingEndpoint(
     endpointOrId: string | EndpointType,
     dbInstance?: any
 ): Promise<PingLog> {
     const db = dbInstance || await getDB();
 
-    // 1. Get endpoint details
     let endpoint: EndpointType;
     if (typeof endpointOrId === 'string') {
         endpoint = await getEndpointDetails(endpointOrId);
@@ -117,7 +98,6 @@ export async function pingEndpoint(
         endpoint = endpointOrId;
     }
 
-    // 2. Perform the ping
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), TIMEOUT_MS);
 
@@ -134,16 +114,12 @@ export async function pingEndpoint(
             signal: controller.signal,
         });
 
-        // Read response body (limit to 500 chars for storage)
         const text = await response.text();
 
-        // Try to parse and re-stringify JSON for consistent formatting
-        // If it's not JSON, just store the text as-is
         try {
             const parsed = JSON.parse(text);
             responseBody = JSON.stringify(parsed).slice(0, 500);
         } catch {
-            // Not JSON, store as plain text
             responseBody = text.slice(0, 500);
         }
     } catch (err) {
@@ -155,9 +131,8 @@ export async function pingEndpoint(
     const endTime = performance.now();
     const latency = Math.round(endTime - startTime);
 
-    // 3. Determine statuses
     const pingLogStatus = determinePingLogStatus(response, error);
-    const newEndpointStatus = determineEndpointStatus(pingLogStatus, latency);
+    const potentialNewStatus = determineEndpointStatus(pingLogStatus, latency);
     const logSummary = generateLogSummary(
         pingLogStatus,
         endpoint.method,
@@ -167,7 +142,6 @@ export async function pingEndpoint(
         error
     );
 
-    // 4. Create PingLog
     const log: PingLog = {
         projectId: endpoint.projectId,
         endpointId: endpoint.endpointId,
@@ -182,14 +156,10 @@ export async function pingEndpoint(
         logSummary
     };
 
-    // 5. Insert log into database
     await db.collection('logs').insertOne(log);
-
-    // Increment total ping count
     await redis.incr("system:total-pings");
 
-    // 6. Apply Two-Strike Rule
-    const isSuccess = newEndpointStatus === "UP" || newEndpointStatus === "DEGRADED";
+    const isSuccess = potentialNewStatus === "UP" || potentialNewStatus === "DEGRADED";
     const previousStatus = endpoint.currentStatus;
     const previousConsecutiveFailures = endpoint.consecutiveFailures;
 
@@ -197,42 +167,46 @@ export async function pingEndpoint(
     let actualNewStatus: EndpointType['currentStatus'];
 
     if (isSuccess) {
-        // Success: Reset consecutive failures
         newConsecutiveFailures = 0;
-        actualNewStatus = newEndpointStatus;
+        actualNewStatus = potentialNewStatus;
     } else {
-        // Failure: Increment consecutive failures
         newConsecutiveFailures = previousConsecutiveFailures + 1;
 
-        // Only change to DOWN if we've hit the threshold
-        if (newConsecutiveFailures >= CONSECUTIVE_FAILURES_THRESHOLD) {
+        if (newConsecutiveFailures >= OUTAGE_THRESHOLD) {
             actualNewStatus = "DOWN";
         } else {
-            // First failure: Keep previous status (or set to DEGRADED if no previous status)
-            actualNewStatus = previousStatus || "DEGRADED";
+            actualNewStatus = "DEGRADED";
         }
     }
 
     const statusChanged = previousStatus !== actualNewStatus;
 
-    // 7. Alerting Logic
-    // DOWN Alert: Only when consecutiveFailures hits exactly the threshold
-    if (!isSuccess && newConsecutiveFailures === CONSECUTIVE_FAILURES_THRESHOLD) {
-        await alertGithubIssue(endpoint, "DOWN");
+    if (!isSuccess) {
+        if (newConsecutiveFailures >= OUTAGE_THRESHOLD) {
+            await projectOutage(endpoint, "OUTAGE", { failures: newConsecutiveFailures });
+        } else {
+            await projectOutage(endpoint, "WARNING", { failures: newConsecutiveFailures });
+        }
     }
 
-    // RECOVERY Alert: Only when previous status was DOWN and current result is UP or DEGRADED
     if (isSuccess && previousStatus === "DOWN") {
-        await alertGithubIssue(endpoint, "RECOVERED");
-    }
+        await projectOutage(endpoint, "RESOLVED");
 
-    // 8. Update Endpoint in database
-    // Optimization: Only update DB if essential fields changed (status, consecutiveFailures, lastStatusChange)
-    // Always update lastPingedAt, latency, nextPingAt - but maybe we can batch this or Debounce?
-    // User requested "repeated read and write ... doesn't affect database health".
-    // For high frequency pings (1 min), updating DB every minute per endpoint is fine for mongo.
-    // However, we can optimize by only writing if 'statusChanged' OR every X pings if status is stable.
-    // For now, let's keep it robust: Write always. But ensuring consistency.
+        const resolvedLog: PingLog = {
+            projectId: endpoint.projectId,
+            endpointId: endpoint.endpointId,
+            url: endpoint.url,
+            method: endpoint.method,
+            timestamp: new Date(Date.now() + 100),
+            latencyMs: log.latencyMs,
+            status: "RESOLVED",
+            statusCode: log.statusCode,
+            responseMessage: null,
+            errorMessage: null,
+            logSummary: "Endpoint recovered. Outage resolved."
+        };
+        await db.collection('logs').insertOne(resolvedLog);
+    }
 
     await db.collection("endpoints").updateOne(
         { endpointId: endpoint.endpointId },
@@ -248,8 +222,6 @@ export async function pingEndpoint(
         }
     );
 
-    // Update Redis
-    // Fetch latest from connection to ensure we preserve fields like Name/Body that might have changed
     const freshEndpointData = await deserialize<EndpointType>(await redis.get(`endpoint:${endpoint.endpointId}`)) || endpoint;
 
     const updatedEndpointObj = {
@@ -261,15 +233,11 @@ export async function pingEndpoint(
         consecutiveFailures: newConsecutiveFailures,
         ...(statusChanged && { lastStatusChange: log.timestamp })
     };
-    // Cache the updated endpoint immediately to serve fresh data for dashboard
     await redis.set(`endpoint:${endpoint.endpointId}`, serialize(updatedEndpointObj));
 
-    // 9. Update Project status (only if endpoint status changed)
     if (statusChanged) {
-        // Optimisation: Fetch endpoints from Redis to calculate status
         let updatedEndpoints: any[] = [];
 
-        // Try getting from Redis first
         const endpointIds = await redis.smembers(`project:${endpoint.projectId}:endpoints`);
         if (endpointIds.length > 0) {
             const keys = endpointIds.map(id => `endpoint:${id}`);
@@ -279,25 +247,19 @@ export async function pingEndpoint(
                 .filter(e => e !== null);
         }
 
-        // Fallback to DB if cache empty (or partial?)
         if (updatedEndpoints.length === 0) {
             updatedEndpoints = await db.collection("endpoints")
                 .find({ projectId: endpoint.projectId })
                 .toArray();
         }
 
-        // Just in case the *current* endpoint update hasn't propagated or we fetched stale data (if we fetched before the update above completed technically, but we just updated Redis)
-        // Actually, we just updated Redis for *this* endpoint above. So if we fetch from Redis, we get the NEW status.
-        // If we fetched from DB, we might NOT get the new status if the write hasn't settled (mongo eventual consistency?), but usually Read-after-Write in same session is fine?
-        // To be safe, let's manually splice the new status into the array.
         updatedEndpoints = updatedEndpoints.map((e: any) =>
             e.endpointId === endpoint.endpointId
-                ? { ...e, currentStatus: actualNewStatus } // Ensure current one is correct
+                ? { ...e, currentStatus: actualNewStatus }
                 : e
         );
 
 
-        // Calculate project status
         const downCount = updatedEndpoints.filter((e: any) => e.currentStatus === "DOWN").length;
         const degradedCount = updatedEndpoints.filter((e: any) => e.currentStatus === "DEGRADED").length;
         const totalCount = updatedEndpoints.length;
@@ -317,8 +279,6 @@ export async function pingEndpoint(
             { $set: { overallStatus: projectStatus } }
         );
 
-        // Update Project in Redis
-        // We need the full project object.
         const project = await deserialize<ProjectType>(await redis.get(`project:${endpoint.projectId}`));
         if (project) {
             project.overallStatus = projectStatus;

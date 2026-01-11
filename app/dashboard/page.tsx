@@ -2,6 +2,7 @@ import { NextPingSkeleton, ProjectsGridSkeleton, SidebarSectionSkeleton } from "
 import { AutoRefresh } from "@/components/autoRefresh";
 import { Suspense } from "react";
 import { LogsSections, NextPingWrapper, ProjectsGrid } from "@/components/dashboard/dashboardComponents";
+import OutageBanner from "@/components/dashboard/outageBanner";
 
 export default async function Dashboard() {
     return (
@@ -26,5 +27,9 @@ export default async function Dashboard() {
                     <ProjectsGrid />
                 </Suspense>
             </div>
-        </div>)
+
+            <Suspense fallback={null}>
+                <OutageBanner />
+            </Suspense>
+        </div >)
 }

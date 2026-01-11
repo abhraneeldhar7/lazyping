@@ -93,9 +93,13 @@ export default function LogsTable({ logsData }: { logsData: PingLog[] }) {
                                     <div className="rounded-full bg-[#00ff9e]/10 border border-[#00ff9e]/30 py-[2px] pt-[3px] px-[8px] w-fit text-[11px] text-[#00ff9e] flex items-center gap-[4px]">
                                         Active <CheckIcon size={10} />
                                     </div> :
-                                    <div className="rounded-full bg-[#ed0707]/10 border border-[#ed0707]/30 py-[2px] pt-[3px] px-[8px] w-fit text-[11px] text-[#ed0707] flex items-center gap-[4px]">
-                                        Warning <OctagonAlert size={10} />
-                                    </div>
+                                    log.status === "RESOLVED" ?
+                                        <div className="rounded-full bg-muted border border-border py-[2px] pt-[3px] px-[8px] w-fit text-[11px] text-muted-foreground flex items-center gap-[4px]">
+                                            Resolved <CheckIcon size={10} />
+                                        </div> :
+                                        <div className="rounded-full bg-[#ed0707]/10 border border-[#ed0707]/30 py-[2px] pt-[3px] px-[8px] w-fit text-[11px] text-[#ed0707] flex items-center gap-[4px]">
+                                            Warning <OctagonAlert size={10} />
+                                        </div>
                                 }
                             </TableCell>
                             <TableCell className="w-[70px] md:table-cell">{log.statusCode}</TableCell>
