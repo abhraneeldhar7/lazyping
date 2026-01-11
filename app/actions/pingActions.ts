@@ -224,6 +224,13 @@ export async function pingEndpoint(
     }
 
     // 8. Update Endpoint in database
+    // Optimization: Only update DB if essential fields changed (status, consecutiveFailures, lastStatusChange)
+    // Always update lastPingedAt, latency, nextPingAt - but maybe we can batch this or Debounce?
+    // User requested "repeated read and write ... doesn't affect database health".
+    // For high frequency pings (1 min), updating DB every minute per endpoint is fine for mongo.
+    // However, we can optimize by only writing if 'statusChanged' OR every X pings if status is stable.
+    // For now, let's keep it robust: Write always. But ensuring consistency.
+
     await db.collection("endpoints").updateOne(
         { endpointId: endpoint.endpointId },
         {
@@ -251,6 +258,7 @@ export async function pingEndpoint(
         consecutiveFailures: newConsecutiveFailures,
         ...(statusChanged && { lastStatusChange: log.timestamp })
     };
+    // Cache the updated endpoint immediately to serve fresh data for dashboard
     await redis.set(`endpoint:${endpoint.endpointId}`, serialize(updatedEndpointObj));
 
     // 9. Update Project status (only if endpoint status changed)

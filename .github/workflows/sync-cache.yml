@@ -12,4 +12,4 @@ jobs:
       - name: Call Sync API
         run: |
           curl -X POST ${{ secrets.NEXT_PUBLIC_APP_URL }}/api/sync \
-          -H "Authorization: Bearer ${{ secrets.GITHUB_CRON_SECRET }}"
+          -H "Authorization: Bearer ${{ secrets.HUB_CRON_SECRET }}"

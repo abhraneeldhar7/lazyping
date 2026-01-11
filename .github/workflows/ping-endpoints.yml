@@ -1,0 +1,16 @@
+name: Ping Endpoints
+
+on:
+  schedule:
+    - cron: '* * * * *' # Every minute
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  ping:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Ping Cron
+        run: |
+          curl -X POST ${{ secrets.NEXT_PUBLIC_APP_URL }}/api/cron \
+          -H "Authorization: Bearer ${{ secrets.HUB_CRON_SECRET }}" \
+          --max-time 10 # Fire-and-forget: Should return instantly

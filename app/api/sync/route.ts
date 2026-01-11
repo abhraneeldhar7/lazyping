@@ -6,7 +6,7 @@ import { NextResponse } from "next/server";
 export async function POST(req: Request) {
     // Add a secret key check header to prevent unauthorized syncing
     const authHeader = req.headers.get("Authorization");
-    if (authHeader !== `Bearer ${process.env.GITHUB_CRON_SECRET}`) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    if (authHeader !== `Bearer ${process.env.HUB_CRON_SECRET}`) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     try {
         const db = await getDB();
