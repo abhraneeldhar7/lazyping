@@ -31,7 +31,7 @@ export default function RootPage() {
                 <Image src="/appLogo.png" alt="" height={27} width={27} />
             </Link>
             <PingingCyclingBox />
-            <div className="hidden md:block"></div>
+            <div className="hidden md:block" />
             <div className="md:hidden">
                 <Sheet>
                     <SheetTrigger asChild>
@@ -177,6 +177,7 @@ export default function RootPage() {
                 Never keep users guessing
             </TextAnimate>
             <Image src="/landingpage/mockup.png" height={500} width={500} className="absolute bottom-0 h-[90%] md:h-[85%] object-bottom object-contain w-fit left-[50%] translate-x-[-50%]" alt="" unoptimized />
+            <div className="bg-gradient-to-t from-background to-transparent absolute z-[2] bottom-0 left-0 right-0 h-[60px] w-full" />
         </div>
 
 
