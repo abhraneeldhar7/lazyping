@@ -1,6 +1,6 @@
 import ChartsThing from "@/components/landingpageComp/chartsThing";
 import LogsThing from "@/components/landingpageComp/logsThing";
-import { PingsSoFar } from "@/components/landingpageComp/pingsSoFar";
+import PingingCyclingBox from "@/components/landingpageComp/pingingCyclingBox";
 import { Button } from "@/components/ui/button";
 import { Marquee } from "@/components/ui/marquee";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -9,6 +9,15 @@ import { MenuIcon, XIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
+function BGGridPattern() {
+    return (<div className="absolute top-0 z-[-2] w-full h-[50vh] md:h-[40vh]">
+        <div className="relative w-full h-full">
+            <div className="opacity-[0.15] dark:opacity-[0.1] w-full h-full bg-background bg-[linear-gradient(to_right,var(--foreground)_1px,transparent_1px),linear-gradient(to_bottom,var(--foreground)_1px,transparent_1px)] bg-size-[30px_30px]" />
+            <div className="h-full w-full absolute bottom-0 bg-gradient-to-t from-background from-[30%] to-transparent z-[2]" />
+        </div>
+    </div>)
+}
+
 export default function RootPage() {
 
     const smallMarqueeList = ["Anti Sleep", "Performance Tracker", "Down Detector", "Public status page", "Latency tracker", "Alert Integrations"]
@@ -16,19 +25,12 @@ export default function RootPage() {
 
     return <div className="relative font-[Satoshi]">
 
-        <div className="h-[50px] backdrop-blur-[30px] fixed top-0 left-0 w-full z-[10] flex items-center px-[15px] justify-between md:hidden">
+        <PingingCyclingBox className="hidden md:flex absolute top-[15px] left-[50%] translate-x-[-50%]" />
+        <div className="h-[50px] backdrop-blur-[3px] fixed top-0 left-0 w-full z-[10] flex items-center px-[15px] justify-between gap-[30px] md:hidden">
             <Link href="/" className="md:hidden">
                 <Image src="/appLogo.png" alt="" height={27} width={27} />
             </Link>
-            <div />
-            <div className="md:block hidden">
-                <div className="flex gap-[30px] text-[15px]">
-                    <Link href="#features">Features</Link>
-                    <Link href="#pricing">Pricing</Link>
-                    <Link href="/blogs">Blogs</Link>
-                </div>
-            </div>
-            <div className="hidden md:block" />
+            <PingingCyclingBox />
             <div className="md:hidden">
                 <Sheet>
                     <SheetTrigger asChild>
@@ -70,52 +72,18 @@ export default function RootPage() {
             </div>
         </div>
 
-        <div className="md:h-[100vh] h-[70vh] overflow-hidden relative w-full flex flex-col pt-[50px] justify-end items-center gap-[30px] md:gap-[20px]">
+        <div className="md:h-[100vh] h-[90vh] overflow-hidden relative w-full flex flex-col pt-[50px] md:justify-center justify-between items-center gap-[30px] md:gap-[20px] px-[15px] py-[40px]">
 
-            <div className="absolute top-0 z-[-2] w-full h-[40vh]">
-                <div className="relative w-full h-full">
-                    <div className="opacity-[0.15] dark:opacity-[0.1] w-full h-full bg-background bg-[linear-gradient(to_right,var(--foreground)_1px,transparent_1px),linear-gradient(to_bottom,var(--foreground)_1px,transparent_1px)] bg-size-[30px_30px]" />
-                    <div className="h-full w-full absolute bottom-0 bg-gradient-to-t from-background from-[30%] to-transparent z-[2]" />
-                </div>
-            </div>
+            <BGGridPattern />
+            <div></div>
+            <Button variant="shinny" className="text-[20px] md:h-[50px] h-[55px] hover:scale-[1.01] md:w-[140px] w-full">Activate</Button>
 
 
 
-            <div className="flex flex-col gap-[20px] items-center z-[2]">
 
-                <h1 className="font-[800] md:text-[50px] text-[40px] leading-[1.2em] text-center flex flex-col items-center">
-                    <span className="flex gap-[15px]">
-                        <span>
-                            NEVER
-                        </span>
-                        <span className="opacity-[0.8] font-[600]">
-                            LET YOUR
-                        </span>
-                    </span>
-                    <span className="flex gap-[15px]">
-                        <span className="text-primary">
-                            SERVERS
-                        </span>
-                        <span className="relative px-[10px]">
-                            <div className="h-[7px] w-full absolute top-[50%] translate-y-[-50%] left-0 bg-[red] z-[2]" />
-                            <span className="opacity-[0.8]">
-                                SLEEP
-                            </span>
-                        </span>
-                    </span>
-                </h1>
 
-                <Link href="/login">
-                    <Button variant="shinny" className="rounded-[0px] text-[24px] h-[50px] leading-[1em] px-[25px]">Activate</Button>
-                </Link>
 
-            </div>
 
-            <div className="px-[10px] z-[2]">
-                <Image alt="" src="/landingpage/dashboardImg.png" height={400} width={600} className="object-contain md:h-[60vh] h-full w-fit transition-all duration-300 hover:translate-y-[0px] md:translate-y-[10px]" unoptimized priority />
-            </div>
-
-            <div className="h-[50vh] md:h-[80vh] w-[90%] bottom-[-10%] translate-y-[50%] translate-x-[-50%] left-[50%] bg-primary absolute rounded-[50%] blur-[150px] dark:opacity-[0.8] animate-pulse" />
 
         </div>
 
@@ -132,14 +100,14 @@ export default function RootPage() {
             </Marquee>
         </div>
 
-        <div className="flex flex-col md:flex-row mt-[100px] gap-[60px] mx-auto md:px-[40px] w-full md:justify-between max-w-[1400px]">
+        <div className="flex flex-col md:flex-row mt-[100px] gap-[60px] mx-auto md:px-[40px] w-full md:justify-around max-w-[1400px]">
 
-            <div className="md:flex-2 flex flex-col gap-[100] max-w-[520px]">
+            <div className="flex flex-1 flex-col gap-[100] max-w-[520px]">
                 <ChartsThing />
                 <LogsThing />
             </div>
 
-            <div className="md:flex-3 flex flex-col relative items-center justify-between h-[400px] md:h-[500px] overflow-hidden" >
+            <div className="flex-1 flex flex-col relative items-center justify-between h-[400px] md:h-[500px] overflow-hidden" >
 
 
                 <Image src="/landingpage/coolDude.png" height={400} width={400} className="object-contain w-fit h-[350px] md:h-[450px] absolute bottom-0" alt="" unoptimized />
@@ -173,10 +141,10 @@ export default function RootPage() {
         </div>
 
         <div className="flex justify-between flex-col relative h-[53vh] md:h-[100vh] w-full mt-[80px] p-[20px]">
-            <TextAnimate className="md:absolute leading-[1.2em] top-[10%] left-[5%] md:text-[70px] text-[40px] text-center font-[600]" animation="blurIn" as="h1">
+            <TextAnimate className="md:absolute leading-[1.2em] top-[10%] left-[5%] md:text-[70px] text-[40px] text-center font-[600]" animation="slideUp" as="h1">
                 Public Status Page
             </TextAnimate>
-            <TextAnimate className="md:absolute bottom-[10%] right-[5%] md:text-[50px] text-[40px] text-right font-[600] z-[2]" animation="slideUp" as="h1">
+            <TextAnimate delay={0.2} className="md:absolute bottom-[10%] right-[5%] md:text-[50px] text-[38px] text-center md:text-right font-[600] z-[2]" animation="slideUp" as="h1">
                 Never keep users guessing
             </TextAnimate>
             <Image src="/landingpage/mockup.png" height={500} width={500} className="absolute bottom-0 h-[90%] md:h-[85%] object-bottom object-contain w-fit left-[50%] translate-x-[-50%]" alt="" unoptimized />

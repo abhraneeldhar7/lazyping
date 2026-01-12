@@ -74,9 +74,10 @@ export default function NextPingComponent({ endpoints }: { endpoints: EndpointTy
                         <Tooltip>
                             <TooltipTrigger asChild>
                                 <div
-                                    className="flex items-center justify-center text-[var(--success)] bg-secondary shadow-md min-w-[70px] w-[70px] md:w-[80px] rounded-[4px] h-full text-[14px] select-none"
+                                    className="flex items-center justify-center text-[var(--success)] bg-secondary shadow-md min-w-[70px] w-[70px] md:w-[80px] rounded-[4px] h-full text-[14px] select-none relative overflow-hidden"
                                     suppressHydrationWarning
                                 >
+                                    <div className="absolute bottom-[-5px] dark:top-[-5px] left-[50%] translate-x-[-50%] w-[90%] h-[10px] rounded-[50%] bg-foreground/70 blur-[15px] " />
                                     {isPinging ? (
                                         <Loader2 className="animate-spin h-4 w-4" />
                                     ) : (

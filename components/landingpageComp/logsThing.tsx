@@ -10,7 +10,7 @@ export default function LogsThing() {
         {
             projectId: "proj_1",
             endpointId: "end_1",
-            url: "/v1/health",
+            url: "/health",
             method: "GET",
             status: "OK",
             responseMessage: "Healthy",
@@ -22,7 +22,7 @@ export default function LogsThing() {
         {
             projectId: "proj_1",
             endpointId: "end_2",
-            url: "/v1/users",
+            url: "/users",
             method: "GET",
             status: "OK",
             responseMessage: "OK",
@@ -34,7 +34,7 @@ export default function LogsThing() {
         {
             projectId: "proj_2",
             endpointId: "end_3",
-            url: "/login",
+            url: "/payment",
             method: "POST",
             status: "HTTP_5XX",
             responseMessage: "Internal Server Error",
@@ -47,7 +47,7 @@ export default function LogsThing() {
         {
             projectId: "proj_1",
             endpointId: "end_4",
-            url: "/v1/posts",
+            url: "/posts",
             method: "GET",
             status: "OK",
             responseMessage: "OK",
@@ -89,12 +89,12 @@ export default function LogsThing() {
                                 <TableRow
                                     key={index}
                                     className={`cursor-pointer text-[12px] border-0 hover:border-[1px] h-[40px] ${index % 2 == 0 ? "dark:bg-muted/50 bg-muted " : ""}`}                        >
-                                    {/* <TableCell className="min-w-[180px]">
-                                <div className="truncate text-[14px] max-w-[250px] md:max-w-none">
-                                    {log.url}
-                                </div>
-                            </TableCell> */}
-                                    <TableCell className="pl-[20px] text-center w-[80px] sm:table-cell">{log.method}</TableCell>
+                                    {/* <TableCell className="pl-[30px]">
+                                        <div className="truncate w-[55px] text-[14px]">
+                                            {log.url}
+                                        </div>
+                                    </TableCell> */}
+                                    <TableCell className="pl-[20px] text-center w-[80px]">{log.method}</TableCell>
                                     <TableCell className="text-[11px] w-[120px]">
                                         {log.status === "OK" ?
                                             <div className="rounded-full bg-[#00ff9e]/10 border border-[#00ff9e]/30 py-[2px] pt-[3px] px-[8px] w-fit text-[#00ff9e] flex items-center gap-[4px]">
