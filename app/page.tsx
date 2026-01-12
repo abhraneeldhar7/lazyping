@@ -26,11 +26,11 @@ export default function RootPage() {
     return <div className="relative font-[Satoshi]">
 
         <PingingCyclingBox className="hidden md:flex absolute top-[15px] left-[50%] translate-x-[-50%]" />
-        <div className="h-[50px] backdrop-blur-[3px] fixed top-0 left-0 w-full z-[10] flex items-center px-[15px] justify-between gap-[30px] md:hidden">
-            <Link href="/" className="md:hidden">
+        <div className="h-[50px]  fixed top-0 left-0 w-full z-[10] flex items-center px-[15px] justify-between gap-[30px]">
+            <Link href={"/"} className="min-w-[27px]">
                 <Image src="/appLogo.png" alt="" height={27} width={27} />
             </Link>
-            <PingingCyclingBox />
+            {/* <PingingCyclingBox /> */}
             <div className="md:hidden">
                 <Sheet>
                     <SheetTrigger asChild>
@@ -72,26 +72,28 @@ export default function RootPage() {
             </div>
         </div>
 
-        <div className="md:h-[100vh] h-[90vh] overflow-hidden relative w-full flex flex-col pt-[50px] md:justify-center justify-between items-center gap-[50px] md:gap-[20px] px-[15px] py-[40px]">
+        <div className="md:h-[100vh] h-[85vh] overflow-hidden relative w-full flex flex-col pt-[50px] md:justify-center justify-between items-center gap-[50px] md:gap-[20px] px-[15px] py-[50px]">
 
             <BGGridPattern />
             <div></div>
             <div className="py-[30px]">
                 <h1 className="font-[800] md:text-[50px] text-[40px] leading-[1.2em] text-center flex flex-col items-center">
                     <span className="flex gap-[15px]">
-                        <span>
+                        <span className="bg-foreground text-background px-[10px]">
                             NEVER
                         </span>
                         <span className="font-[600]">
                             LET YOUR
                         </span>
                     </span>
-                    <span className="flex gap-[15px]">
+                    <span className="flex gap-[15px] mt-[6px]">
                         <span className="text-primary">
                             SERVERS
                         </span>
                         <span className="relative px-[10px]">
-                            <div className="h-[7px] w-full absolute top-[50%] translate-y-[-50%] left-0 bg-[red] z-[2]" />
+                            <div className="h-[6px] w-full absolute top-[50%] translate-y-[-50%] left-0 bg-[red] z-[2]" />
+                            <div className="bg-gradient-to-r from-background to-transparent absolute z-[2] left-0 top-0 h-full w-[12px] " />
+                            <div className="bg-gradient-to-l from-background to-transparent absolute z-[2] right-0 top-0 h-full w-[12px] " />
                             <span className="opacity-[0.7] font-[500] ">
                                 SLEEP
                             </span>
@@ -100,8 +102,8 @@ export default function RootPage() {
                 </h1>
             </div>
 
-            <Link href="/login">
-                <Button variant="shinny" className="text-[20px] md:h-[50px] h-[55px] hover:scale-[1.01] md:w-[140px] w-full">Activate</Button>
+            <Link href="/login" className="md:w-[140px] w-full">
+                <Button variant="shinny" className="text-[20px] md:h-[50px] h-[55px] hover:scale-[1.01] w-full">Activate</Button>
             </Link>
 
 
