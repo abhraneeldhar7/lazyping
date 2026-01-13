@@ -10,7 +10,8 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        shinny: "bg-gradient-to-b from-primary to-[#ffa175] from-[70%] hover:bg-primary/95 text-[white]/90 rounded-[10px] border-[3px] border-[#ff915d] shadow-lg active:translate-y-[2px]",
+        // shinny: "bg-gradient-to-b from-primary to-[#ffa175] from-[70%] hover:bg-primary/95 text-[white]/90 rounded-[10px] border-[3px] border-[#ff915d] shadow-lg active:translate-y-[2px]",
+        shinny: "bg-primary text-[white]/90 rounded-[10px] relative overflow-hidden border-[#ff915d] active:translate-y-[2px]",
         default:
           "bg-foreground text-background shadow-xs hover:bg-foreground/80",
         destructive:
@@ -53,14 +54,20 @@ function Button({
   const Comp = asChild ? Slot : "button"
 
   return (
-    <Comp
-      data-slot="button"
-      className={cn(buttonVariants({ variant, size, className }))}
-      disabled={loading || props.disabled}
-      {...props}
-    >
-      {loading ? <LoaderCircle className="animate-spin" /> : children}
-    </Comp>
+    <div>
+      <Comp
+        data-slot="button"
+        className={cn(buttonVariants({ variant, size, className }))}
+        disabled={loading || props.disabled}
+        {...props}
+      >
+        {variant == "shinny" && <div className="absolute h-[35%] w-full rounded-[50%] bg-white left-0 top-[-15%] blur-[15px] z-[2]" />}
+        {loading ? <LoaderCircle className="animate-spin" /> : children}
+      </Comp>
+      {variant == "shinny" &&
+        <div className="w-[95%] h-[6px] rounded-[50%] blur-[7px] translate-y-[-4px] bg-primary" />
+      }
+    </div>
   )
 }
 
