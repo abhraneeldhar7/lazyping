@@ -9,7 +9,7 @@ export default function AuthLayout({
 }>) {
     return (
         <div className="flex gap-[20px] md:p-[20px] p-[15px] max-w-[1500px] w-full mx-auto relative md:h-[100vh] h-[100svh]">
-            <div className="flex-1 md:static absolute z-[-1] overflow-hidden md:rounded-[14px] left-0 top-0 h-full">
+            <div className="flex-1 md:static absolute z-[-1] overflow-hidden md:rounded-[14px] left-0 top-0 h-full w-full">
                 <Image className="dark:hidden h-full object-cover w-full md:opacity-[1] opacity-[0.24]" preload unoptimized alt="" src="/login/light.jpg" width={600} height={600} />
                 <Image className="hidden dark:block h-full object-cover w-full md:opacity-[1] object-bottom" preload unoptimized alt="" src="/login/dark.jpg" width={600} height={600} />
             </div>
