@@ -77,7 +77,7 @@ export default function EditPublicStatusPage({ pageData }: { pageData: PublicPag
                     <Button variant="outline" className="text-[var(--error)] w-[110px]" onClick={handleToggleStatus} loading={toggleLoading}><WifiOffIcon /> Disabled</Button>
                 }
 
-                <Link href={`/${pageData.pageSlug}`} target="_blank">
+                <Link href={`/status/${pageData.pageSlug}`} target="_blank">
                     <Button variant="outline">Preview <ArrowUpRight /></Button>
                 </Link>
             </div>

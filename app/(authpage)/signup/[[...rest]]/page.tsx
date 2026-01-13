@@ -20,7 +20,7 @@ export default function SignupPage() {
     const { isLoaded, signUp, setActive } = useSignUp();
     const router = useRouter();
 
-    const [firstName, setFirstName] = useState("");
+    const [fullName, setFullName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
@@ -32,6 +32,7 @@ export default function SignupPage() {
     // Form submission handler
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        console.log("Submitting signup...");
         if (!isLoaded) return;
 
         if (password !== confirmPassword) {
@@ -42,8 +43,12 @@ export default function SignupPage() {
         setIsLoading(true);
 
         try {
+            const [firstName, ...lastNameParts] = fullName.split(" ");
+            const lastName = lastNameParts.join(" ") || " "; // Clerk might require lastName
+
             await signUp.create({
                 firstName,
+                lastName,
                 emailAddress: email,
                 password,
             });
@@ -53,7 +58,7 @@ export default function SignupPage() {
             setPendingVerification(true);
             toast.success("Verification code sent to your email");
         } catch (err: any) {
-            console.error(err);
+            console.error("Signup error:", err);
             toast.error(err.errors?.[0]?.message || "Failed to sign up");
         } finally {
             setIsLoading(false);
@@ -138,8 +143,8 @@ export default function SignupPage() {
                 <div className="flex flex-col gap-[7px]">
                     <Label>Name</Label>
                     <Input
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
                         placeholder="Eduardo"
                         required
                     />

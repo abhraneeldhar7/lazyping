@@ -13,11 +13,10 @@ export default function OAuthButtons() {
         try {
             if (!signIn || !signUp) return;
 
-            // We can use either signIn or signUp for the redirect
-            // Clerk will handle the flow
+            // Use the dedicated sso-callback route
             await signIn.authenticateWithRedirect({
                 strategy,
-                redirectUrl: "/dashboard",
+                redirectUrl: "/sso-callback",
                 redirectUrlComplete: "/dashboard",
             });
         } catch (err: any) {

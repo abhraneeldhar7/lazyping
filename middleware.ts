@@ -11,6 +11,7 @@ const isProtectedRoute = createRouteMatcher([
 const isAuthRoute = createRouteMatcher([
     "/login(.*)",
     "/signup(.*)",
+    "/sso-callback(.*)",
 ]);
 
 const isOnboardingRoute = createRouteMatcher([
