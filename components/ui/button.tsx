@@ -11,9 +11,9 @@ const buttonVariants = cva(
     variants: {
       variant: {
         // shinny: "bg-gradient-to-b from-primary to-[#ffa175] from-[70%] hover:bg-primary/95 text-[white]/90 rounded-[10px] border-[3px] border-[#ff915d] shadow-lg active:translate-y-[2px]",
-        shinny: "bg-primary text-[white]/90 rounded-[10px] relative overflow-hidden border-[#ff915d] active:translate-y-[2px]",
+        shinny: "bg-primary text-[white]/90 rounded-[10px] relative overflow-hidden active:translate-y-[2px]",
         default:
-          "bg-foreground text-background shadow-xs hover:bg-foreground/80",
+          "bg-foreground text-background shadow-xs hover:bg-foreground/80 relative  overflow-hidden ",
         destructive:
           "bg-gradient-to-b from-destructive/50 to-destructive to-[60%] dark:from-destructive dark:to-destructive/60 dark:to-[100%] dark:from-[50%] text-white shadow-xs focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40",
         outline:
@@ -40,7 +40,7 @@ const buttonVariants = cva(
 
 function Button({
   className,
-  variant,
+  variant = "default",
   size,
   asChild = false,
   loading = false,
@@ -61,20 +61,13 @@ function Button({
       {...props}
     >
       {variant == "shinny" && <div className="absolute h-[35%] w-full rounded-[50%] bg-white left-0 top-[-15%] blur-[15px] z-[2]" />}
+      {variant == "default" && <div className="absolute dark:h-[22%] h-[18%] w-full rounded-[50%] bg-background left-0 top-[-14%] z-[2] blur-[10px] dark:blur-[10px] dark:bottom-[-27%] dark:top-auto" />}
       {loading ? <LoaderCircle className="animate-spin" /> : children}
     </Comp>
   )
 
-  if (variant !== "shinny") {
-    return buttonContent
-  }
+  return buttonContent
 
-  return (
-    <div className={cn("flex flex-col items-center", className)}>
-      {buttonContent}
-      <div className="w-[95%] h-[6px] rounded-[50%] blur-[7px] translate-y-[-4px] bg-primary mx-auto" />
-    </div>
-  )
 }
 
 export { Button, buttonVariants }
