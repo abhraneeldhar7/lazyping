@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Marquee } from "@/components/ui/marquee";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
 import { TextAnimate } from "@/components/ui/text-animate";
-import { MenuIcon, XIcon } from "lucide-react";
+import { ChevronRight, MenuIcon, XIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -112,7 +112,7 @@ export default function RootPage() {
 
 
 
-            <div className="max-w-[800px] relative">
+            <div className="max-w-[800px] w-full relative">
                 <div className="h-full w-[20px] absolute left-0 bg-gradient-to-r from-background from-[20%] to-transparent z-[2]" />
                 <div className="h-full w-[20px] absolute right-0 bg-gradient-to-l from-background from-[20%] to-transparent z-[2]" />
                 <Marquee className="[--duration:40s]">
@@ -158,6 +158,10 @@ export default function RootPage() {
             </TextAnimate>
             <Image src="/landingpage/mockup.png" height={500} width={500} className="absolute bottom-0 h-[90%] md:h-[85%] object-bottom object-contain w-fit left-[50%] translate-x-[-50%]" alt="" />
             <div className="bg-gradient-to-t from-background to-transparent absolute z-[2] bottom-0 left-0 right-0 h-[60px] w-full" />
+
+            <Link href="/status/moviesflix" className="w-fit md:text-[26px] text-[20px] md:absolute left-[10%] bottom-[10%] flex items-center gap-[10px] leading-[1em] md:opacity-[0.9] z-[3] hover:opacity-[1] transition-all duration-300">
+                View Example <ChevronRight size={24} className="mt-[2px]" />
+            </Link>
         </div>
 
 

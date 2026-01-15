@@ -83,7 +83,7 @@ export default function LogsThing() {
                                             {log.url}
                                         </div>
                                     </TableCell> */}
-                                    <TableCell className="pl-[25px]">{log.url}</TableCell>
+                                    <TableCell className="pl-[25px] hidden md:block">{log.url}</TableCell>
                                     <TableCell className="text-center ">{log.method}</TableCell>
                                     <TableCell className="text-[11px]">
                                         {log.status === "OK" ?
