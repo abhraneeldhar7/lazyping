@@ -23,7 +23,7 @@ export default function NewProjectBtn() {
                         New Project
                     </Button>
                 </DialogTrigger>
-                <DialogContent showCloseButton={false}>
+                <DialogContent showCloseButton={false} >
 
                     <DialogTitle>
                         Add new project
@@ -48,7 +48,7 @@ export default function NewProjectBtn() {
                         }
 
                     }}>
-                        <div className="flex flex-col gap-[15px]">
+                        <div className="flex flex-col gap-[15px] h-[60px]">
                             <div className="flex flex-col gap-[8px]">
                                 <Label>Name</Label>
                                 <Input placeholder="Very cool project" value={projectName} onChange={(e) => setProjectName(e.target.value)} />

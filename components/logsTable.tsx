@@ -47,12 +47,12 @@ export default function LogsTable({ logsData }: { logsData: PingLog[] }) {
             <Table>
                 <TableHeader>
                     <TableRow className="opacity-[0.6] text-[12px]">
-                        <TableHead className="min-w-[180px]">URL</TableHead>
-                        <TableHead className="w-[80px] sm:table-cell">Method</TableHead>
-                        <TableHead className="w-[140px]">Status</TableHead>
-                        <TableHead className="w-[70px] md:table-cell">Code</TableHead>
-                        <TableHead className="w-[90px] lg:table-cell">Latency</TableHead>
-                        <TableHead className="w-[100px] text-right">Time</TableHead>
+                        <TableHead className="min-w-[250px]">URL</TableHead>
+                        <TableHead className="w-[100px]">Method</TableHead>
+                        <TableHead className="w-[150px]">Status</TableHead>
+                        <TableHead className="w-[90px]">Code</TableHead>
+                        <TableHead className="w-[120px]">Latency</TableHead>
+                        <TableHead className="w-[120px] text-right">Time</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody className="text-[12px] cursor-pointer" suppressHydrationWarning>
@@ -65,8 +65,8 @@ export default function LogsTable({ logsData }: { logsData: PingLog[] }) {
                                 setIsSheetOpen(true);
                             }}
                         >
-                            <TableCell className="min-w-[180px]">
-                                <div className="truncate text-[14px] max-w-[250px] md:max-w-none">
+                            <TableCell className="min-w-[250px]">
+                                <div className="truncate text-[14px] max-w-[200px] md:max-w-none">
                                     {(() => {
                                         if (!isSingleProject) {
                                             return log.url;
@@ -86,9 +86,9 @@ export default function LogsTable({ logsData }: { logsData: PingLog[] }) {
                                     })()}
                                 </div>
                             </TableCell>
-                            <TableCell className="w-[80px] sm:table-cell">{log.method}</TableCell>
+                            <TableCell className="w-[100px]">{log.method}</TableCell>
 
-                            <TableCell className="w-[140px]">
+                            <TableCell className="w-[150px]">
                                 {log.status === "OK" ?
                                     <div className="rounded-full bg-[#00ff9e]/10 border border-[#00ff9e]/30 py-[2px] pt-[3px] px-[8px] w-fit text-[11px] text-[#00ff9e] flex items-center gap-[4px]">
                                         Active <CheckIcon size={10} />
@@ -102,9 +102,9 @@ export default function LogsTable({ logsData }: { logsData: PingLog[] }) {
                                         </div>
                                 }
                             </TableCell>
-                            <TableCell className="w-[70px] md:table-cell">{log.statusCode}</TableCell>
-                            <TableCell className="w-[90px] lg:table-cell">{log.latencyMs} ms</TableCell>
-                            <TableCell suppressHydrationWarning className="w-[100px] opacity-[0.7] text-right">{
+                            <TableCell className="w-[90px]">{log.statusCode}</TableCell>
+                            <TableCell className="w-[120px]">{log.latencyMs} ms</TableCell>
+                            <TableCell suppressHydrationWarning className="w-[120px] opacity-[0.7] text-right">{
                                 (new Date(log.timestamp)).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                             }</TableCell>
                         </TableRow>

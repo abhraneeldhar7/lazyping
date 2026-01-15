@@ -19,7 +19,7 @@ export default async function ProjectLayout({
     const projectId = (await params).id;
 
     return (
-        <div className="relative min-h-[100vh] pt-[120px] pb-[50px] overflow-x-hidden">
+        <div className="relative min-h-[100vh] pt-[120px] pb-[50px] overflow-x-hidden px-[15px]">
 
             <div className="rounded-[50%] w-[100%] h-[18vh] left-[50%] translate-x-[-50%] absolute top-[-15vh] bg-primary dark:bg-primary/80 z-[-1] blur-[50px] animate-pulse" />
 

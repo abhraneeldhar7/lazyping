@@ -21,9 +21,18 @@ export default function BarUptime({ logs, hideLabel = false, hideTooltip = false
                 return logTime >= bucketStart.getTime() && logTime < bucketEnd.getTime();
             });
 
-            let status: "UP" | "DOWN" | "NONE" = "NONE";
+            let status: "UP" | "DOWN" | "DEGRADED" | "NONE" = "NONE";
             if (logsInBucket.length > 0) {
-                status = logsInBucket.every(l => l.status === "OK") ? "UP" : "DOWN";
+                const allOk = logsInBucket.every(l => l.status === "OK");
+                const someOk = logsInBucket.some(l => l.status === "OK");
+
+                if (allOk) {
+                    status = "UP";
+                } else if (someOk) {
+                    status = "DEGRADED";
+                } else {
+                    status = "DOWN";
+                }
             }
 
             result.push({
@@ -36,8 +45,9 @@ export default function BarUptime({ logs, hideLabel = false, hideTooltip = false
         return result;
     }, [logs]);
 
-    const getColor = (status: "UP" | "DOWN" | "NONE") => {
+    const getColor = (status: "UP" | "DOWN" | "DEGRADED" | "NONE") => {
         if (status === "UP") return "linear-gradient(180deg, #5fffb4ff 0%, #00ff88 50%, #007a3d 100%)";
+        if (status === "DEGRADED") return "linear-gradient(180deg, #fff25fff 0%, #ffd000 50%, #7a6a00 100%)";
         if (status === "DOWN") return "linear-gradient(180deg, #ff5858ff 0%, #ff0000 50%, #a70202ff 100%)";
         return "var(--muted)";
     };
@@ -66,7 +76,7 @@ export default function BarUptime({ logs, hideLabel = false, hideTooltip = false
                                 <TooltipContent>
                                     <div className="text-[12px]">
                                         <p className="font-medium">
-                                            {bucket.status === "UP" ? "Operational" : bucket.status === "DOWN" ? "Outage detected" : "No data"}
+                                            {bucket.status === "UP" ? "Operational" : bucket.status === "DEGRADED" ? "Degraded performance" : bucket.status === "DOWN" ? "Outage detected" : "No data"}
                                         </p>
                                         <p className="opacity-70 mt-1">
                                             {bucket.start.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} - {bucket.end.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}

@@ -159,15 +159,15 @@ export default function AddEndpointBtn({ projectId }: { projectId: string }) {
                             }} placeholder="{ status : `healthy` } or keep it empty" />
                         </div>
 
-                        <div className="flex gap-[15px] justify-between md:flex-row flex-col">
-                            <div className="flex flex-col gap-[10px]">
+                        <div className="flex gap-[15px] justify-between">
+                            <div className="flex flex-col gap-[10px] flex-1">
                                 <Label>Ping interval</Label>
                                 <Select value={String(newEndpoint.intervalMinutes)} onValueChange={(e) => {
                                     setNewEndpoint(prev => {
                                         return { ...prev, intervalMinutes: Number(e) }
                                     })
                                 }}>
-                                    <SelectTrigger className="w-[180px]">
+                                    <SelectTrigger className="w-full" >
                                         <SelectValue placeholder="Select interval" />
                                     </SelectTrigger>
                                     <SelectContent>
@@ -182,14 +182,14 @@ export default function AddEndpointBtn({ projectId }: { projectId: string }) {
                                 </Select>
                             </div>
 
-                            <div className="flex flex-col gap-[10px]">
+                            <div className="flex flex-col gap-[10px] flex-1">
                                 <Label>Method</Label>
                                 <Select value={String(newEndpoint.method)} onValueChange={(e) => {
                                     setNewEndpoint(prev => {
                                         return { ...prev, method: e as methodType }
                                     })
                                 }}>
-                                    <SelectTrigger className="w-[180px]">
+                                    <SelectTrigger className="w-full">
                                         <SelectValue placeholder="Select method" />
                                     </SelectTrigger>
                                     <SelectContent>

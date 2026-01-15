@@ -132,7 +132,7 @@ export function ChartAreaInteractive({ logs, hideShadows }: { logs: PingLog[], h
                 </div>
                 <Select value={timeRange} onValueChange={setTimeRange}>
                     <SelectTrigger
-                        className="w-[160px] rounded-lg sm:ml-auto sm:flex bg-background/60"
+                        className="w-[160px] rounded-lg sm:ml-auto sm:flex border-none dark:bg-muted/40 bg-muted shadow-sm"
                         aria-label="Select a value"
                     >
                         <SelectValue placeholder="Last 24 hours" />

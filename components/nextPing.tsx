@@ -3,6 +3,7 @@ import { EndpointType } from "@/lib/types";
 import { Loader2 } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "./ui/tooltip";
+import { NextPingSkeleton } from "./loadingSkeletons";
 
 export default function NextPingComponent({ endpoints }: { endpoints: EndpointType[] }) {
     const [now, setNow] = useState<number>(0);
@@ -45,6 +46,7 @@ export default function NextPingComponent({ endpoints }: { endpoints: EndpointTy
 
         return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}s`;
     }, [target, now]);
+
 
     return (
         <div className="border bg-muted/60 rounded-[5px] md:h-[50px] h-[45px] w-full flex items-center gap-[10px] relative">

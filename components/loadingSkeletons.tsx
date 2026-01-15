@@ -3,11 +3,11 @@ import { Skeleton } from "@/components/ui/skeleton";
 export function NextPingSkeleton() {
     return (
         <div className="border bg-muted/60 rounded-[5px] md:h-[50px] h-[45px] w-full flex items-center gap-[10px] relative">
-            <div className="absolute top-[-10px] left-[8px] z-[5]">
-                <Skeleton className="h-[18px] w-[60px] rounded-[5px]" />
+            <div className="text-[var(--success)] text-[11px] bg-background absolute top-[-10px] py-[4px] leading-[1em] px-[7px] left-[8px] border rounded-[5px] z-[5]">
+                Next ping
             </div>
             <div className="rounded-tl-[5px] rounded-bl-[5px] h-full w-[80px] bg-background border-r flex items-center justify-center">
-                <Skeleton className="h-[15px] w-[40px]" />
+
             </div>
             <div className="flex-1 px-[10px]">
                 <Skeleton className="h-[14px] w-[60%]" />
@@ -76,9 +76,9 @@ export function ProjectsGridSkeleton() {
     );
 }
 
-export function TableSkeleton({ rows = 5, cols = 4 }: { rows?: number, cols?: number }) {
+export function TableSkeleton({ rows = 10, cols = 4 }: { rows?: number, cols?: number }) {
     return (
-        <div className="w-full border rounded-[8px] overflow-hidden">
+        <div className="w-full overflow-hidden">
             <div className="bg-muted/50 border-b p-[10px] flex gap-[10px]">
                 {Array.from({ length: cols }).map((_, i) => (
                     <Skeleton key={i} className="h-4 flex-1" />

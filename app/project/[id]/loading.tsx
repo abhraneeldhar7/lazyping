@@ -3,7 +3,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export default function ProjectLoading() {
     return (
-        <div className="mx-auto max-w-[1000px] px-[15px]">
+        <div className="mx-auto max-w-[1000px]">
             <NextPingSkeleton />
 
             <div className="flex mb-[30px] md:flex-row flex-col gap-[30px] mt-[25px]">

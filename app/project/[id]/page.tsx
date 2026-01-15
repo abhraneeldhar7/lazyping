@@ -13,6 +13,7 @@ import { AutoRefresh } from "@/components/autoRefresh";
 import { pingEndpoint } from "@/app/actions/pingActions";
 import { toast } from "sonner";
 import { useState } from "react";
+import ProjectLoading from "./loading";
 
 export default function ProjectPage() {
     const { projectData, endpoints, logs } = useProject();
@@ -175,11 +176,11 @@ export default function ProjectPage() {
                         <Table>
                             <TableHeader>
                                 <TableRow className="text-[12px] opacity-[0.7]">
-                                    <TableHead className="min-w-[200px]">Endpoint</TableHead>
-                                    <TableHead className="w-[140px]">Status</TableHead>
-                                    <TableHead className="w-[90px] hidden md:table-cell">Latency</TableHead>
-                                    <TableHead className="w-[120px] hidden sm:table-cell">Last Checked</TableHead>
-                                    <TableHead className="w-[80px] hidden lg:table-cell">Interval</TableHead>
+                                    <TableHead className="min-w-[300px]">Endpoint</TableHead>
+                                    <TableHead className="w-[150px]">Status</TableHead>
+                                    <TableHead className="w-[120px]">Latency</TableHead>
+                                    <TableHead className="w-[160px]">Last Checked</TableHead>
+                                    <TableHead className="w-[100px]">Interval</TableHead>
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -187,8 +188,8 @@ export default function ProjectPage() {
                                     <TableRow className="cursor-pointer select-none hover:bg-muted/50 border-0" key={index} onClick={() => {
                                         router.push(`/project/${projectData.projectId}/e/${endpoint.endpointId}`)
                                     }}>
-                                        <TableCell className="min-w-[200px]">
-                                            <div className="truncate text-[14px] max-w-[300px] md:max-w-none">
+                                        <TableCell className="min-w-[300px]">
+                                            <div className="truncate text-[14px] max-w-[250px] md:max-w-none">
                                                 {(() => {
                                                     try {
                                                         const url = new URL(endpoint.url);
@@ -205,7 +206,7 @@ export default function ProjectPage() {
                                                 })()}
                                             </div>
                                         </TableCell>
-                                        <TableCell className="w-[140px] leading-[1em]">
+                                        <TableCell className="w-[150px] leading-[1em]">
                                             {!endpoint.enabled ?
                                                 <div className="rounded-full bg-[#6b7280]/10 border border-[#6b7280]/30 py-[3px] pt-[4px] px-[8px] w-fit text-[11px] text-[#6b7280] flex items-center gap-[4px]">
                                                     Paused <PauseIcon fill="var(--foreground)" size={11} />
@@ -227,14 +228,14 @@ export default function ProjectPage() {
                                                             </div>
                                             }
                                         </TableCell>
-                                        <TableCell className="w-[90px] text-[13px] opacity-80 hidden md:table-cell">
+                                        <TableCell className="w-[120px] text-[13px] opacity-80">
                                             {endpoint.latency ? `${endpoint.latency} ms` : ""}
                                             {!endpoint.latency && <XIcon size={12} />}
                                         </TableCell>
-                                        <TableCell suppressHydrationWarning className="w-[120px] text-[13px] opacity-80 hidden sm:table-cell">
+                                        <TableCell suppressHydrationWarning className="w-[160px] text-[13px] opacity-80">
                                             {endpoint.lastPingedAt ? new Date(endpoint.lastPingedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "Never"}
                                         </TableCell>
-                                        <TableCell className="w-[80px] text-[13px] opacity-80 hidden lg:table-cell">{endpoint.intervalMinutes}m</TableCell>
+                                        <TableCell className="w-[100px] text-[13px] opacity-80">{endpoint.intervalMinutes}m</TableCell>
                                     </TableRow>
                                 ))}
                             </TableBody>
