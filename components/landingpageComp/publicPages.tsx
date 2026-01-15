@@ -5,6 +5,7 @@ import { getAllPublicPages } from "@/app/actions/publicPageActions";
 import { cn } from "@/lib/utils";
 import { Suspense } from "react";
 import LoadingPublicPagesSkeleton from "@/app/dashboard/public-pages/loading";
+import { PublicPageType } from "@/lib/types";
 
 export default async function PublicLagesAll() {
     const publicPageData = await getAllPublicPages();
@@ -12,10 +13,10 @@ export default async function PublicLagesAll() {
         <div className="w-full">
             <Suspense fallback={<LoadingPublicPagesSkeleton />}>
                 <div className="grid grid-cols-[repeat(auto-fill,minmax(290px,1fr))] gap-[15px]">
-                    {publicPageData.map((page: any, index: number) => (
+                    {publicPageData.map((page: PublicPageType, index: number) => (
                         <Link
                             key={index}
-                            href={`/project/${page.projectId}/public-page`}
+                            href={`/status/${page.pageSlug}`}
                             className="group flex flex-col gap-[15px] p-[20px] rounded-[15px] border bg-muted/30 hover:bg-muted/50 transition-all duration-300 relative overflow-hidden h-[145px]"
                         >
                             <div className="flex items-center gap-[12px]">

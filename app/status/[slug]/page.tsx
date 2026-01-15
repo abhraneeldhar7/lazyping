@@ -2,7 +2,7 @@ import { getViewerPublicPageData } from "@/app/actions/viewerActions";
 import { ChartAreaInteractive } from "@/components/latencyChart/latencyChart";
 import PublicPageEndpointCard from "@/components/publicPage/endpointCard";
 import { EndpointType, PingLog, ProjectType, PublicPageType } from "@/lib/types";
-import { ArrowUpRight, CheckCircle, LockIcon, OctagonAlert, Server, XCircle } from "lucide-react";
+import { ArrowUpRight, CheckCircle, LockIcon, OctagonAlert, ProjectorIcon, Server, XCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { Suspense } from "react";
@@ -63,8 +63,9 @@ async function StatusPageContent({ slug }: { slug: string }) {
 
             <div className="min-h-[100vh] flex flex-col gap-[35px] p-[20px] pb-[100px] max-w-[800px] w-full mx-auto relative z-[1]">
                 <div className="flex gap-[15px] items-center">
-                    {publicPageData.logoUrl &&
-                        <Image src={publicPageData.logoUrl} className="h-[45px] w-[45px] object-cover rounded-lg" height={45} width={45} alt="Logo" />
+                    {publicPageData.logoUrl ?
+                        <Image src={publicPageData.logoUrl} className="h-[45px] w-[45px] object-cover rounded-lg" height={45} width={45} alt="Logo" /> :
+                        <ProjectorIcon className="opacity-[0.8] w-[45px] h-[45px] rounded-lg border p-[11px] bg-muted dark:bg-muted/60" size={20} />
                     }
                     <div className="flex flex-col gap-[4px]">
                         <h1 className="text-[24px] font-semibold leading-[1.1em]">{publicPageData.projectName}</h1>
