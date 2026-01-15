@@ -62,3 +62,14 @@ export interface PublicPageType {
     enabled: boolean,
     logoUrl: string | null,
 }
+
+export interface TierLimits {
+    max_projects: number;
+    max_endpoints_per_project: number;
+    allow_global_pings: boolean;
+    allow_github_integration: boolean;
+    max_history_days: number;
+    min_ping_interval_minute: number;
+    team_members_allowed: boolean;
+    max_team_members_per_project: number;
+}

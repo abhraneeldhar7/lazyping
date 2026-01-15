@@ -1,6 +1,7 @@
 import ChartsThing from "@/components/landingpageComp/chartsThing";
 import LogsThing from "@/components/landingpageComp/logsThing";
 import PingingCyclingBox from "@/components/landingpageComp/pingingCyclingBox";
+import PublicLagesAll from "@/components/landingpageComp/publicPages";
 import WorksWithFrameworkThing from "@/components/landingpageComp/worksWithThing";
 import { Button } from "@/components/ui/button";
 import { Marquee } from "@/components/ui/marquee";
@@ -24,7 +25,7 @@ export default function RootPage() {
     const smallMarqueeList = ["Anti Sleep", "Performance Tracker", "Down Detector", "Public status page", "Latency tracker", "Alert Integrations"]
 
 
-    return <div className="relative font-[Satoshi]">
+    return <div className="relative font-[Satoshi] overflow-hidden">
 
         {/* <PingingCyclingBox className="absolute top-[15px] left-[50%] translate-x-[-50%]" /> */}
         <div className="h-[50px]  fixed top-0 left-0 w-full z-[10] flex items-center px-[15px] justify-between gap-[30px]">
@@ -107,23 +108,27 @@ export default function RootPage() {
             <Link href="/login" className="md:w-[140px] w-full">
                 <Button variant="shinny" className="text-[20px] md:h-[50px] h-[55px] hover:scale-[1.01] w-full">Activate</Button>
             </Link>
-            <Image className="w-full h-fit max-w-[800px] object-contain hidden dark:block" alt="" src="/landingpage/dashboardImgDark.png" height={600} width={600} unoptimized />
-            <Image className="w-full h-fit max-w-[800px] object-contain block dark:hidden" alt="" src="/landingpage/dashboardImgLight.png" height={600} width={600} unoptimized />
 
+            <div className="max-w-[800px] w-full mx-auto">
 
-
-            <div className="max-w-[800px] w-full relative">
-                <div className="h-full w-[20px] absolute left-0 bg-gradient-to-r from-background from-[20%] to-transparent z-[2]" />
-                <div className="h-full w-[20px] absolute right-0 bg-gradient-to-l from-background from-[20%] to-transparent z-[2]" />
-                <Marquee className="[--duration:40s]">
-                    {smallMarqueeList.map((item, index) => (
-                        <div key={index} className="flex items-center gap-[15px]">
-                            <p>{item}</p>
-                            <div className="bg-foreground h-[4px] w-[4px] opacity-[0.8] rounded-[50%]" />
-                        </div>
-                    ))}
-                </Marquee>
+                <Image className="w-full h-fit object-contain hidden dark:block" alt="" src="/landingpage/dashboardImgDark.png" height={600} width={600} unoptimized />
+                <Image className="w-full h-fit max-w-[800px] object-contain block dark:hidden" alt="" src="/landingpage/dashboardImgLight.png" height={600} width={600} unoptimized />
+                <div className="w-full relative">
+                    <div className="h-full w-[20px] absolute left-0 bg-gradient-to-r from-background from-[20%] to-transparent z-[2]" />
+                    <div className="h-full w-[20px] absolute right-0 bg-gradient-to-l from-background from-[20%] to-transparent z-[2]" />
+                    <Marquee className="[--duration:40s]">
+                        {smallMarqueeList.map((item, index) => (
+                            <div key={index} className="flex items-center gap-[15px]">
+                                <p>{item}</p>
+                                <div className="bg-foreground h-[4px] w-[4px] opacity-[0.8] rounded-[50%]" />
+                            </div>
+                        ))}
+                    </Marquee>
+                </div>
             </div>
+
+
+
         </div>
 
 
@@ -149,21 +154,27 @@ export default function RootPage() {
         </div>
 
 
-        <div className="flex justify-between flex-col relative h-[53vh] md:h-[100vh] w-full mt-[80px] p-[20px]">
-            <TextAnimate className="md:absolute leading-[1.2em] top-[10%] left-[5%] md:text-[70px] text-[40px] text-center font-[600]" animation="slideUp" as="h1">
+        <div className="flex justify-between flex-col relative h-[55vh] md:h-[100vh] w-full mt-[80px] p-[20px]">
+            <TextAnimate className="md:absolute leading-[1.2em] top-[10%] left-[5%] md:text-[70px] text-[35px] text-center font-[600]" animation="slideUp" as="h1">
                 Public Status Page
             </TextAnimate>
-            <TextAnimate delay={0.2} className="md:absolute bottom-[10%] right-[5%] md:text-[50px] text-[38px] text-center md:text-right font-[600] z-[3]" animation="slideUp" as="h1">
+            <TextAnimate delay={0.2} className="md:block hidden absolute bottom-[50px] right-[5%] text-[50px] text-right font-[600] z-[3]" animation="slideUp" as="h1">
                 Never keep users guessing
             </TextAnimate>
             <Image src="/landingpage/mockup.png" height={500} width={500} className="absolute bottom-0 h-[90%] md:h-[85%] object-bottom object-contain w-fit left-[50%] translate-x-[-50%]" alt="" />
             <div className="bg-gradient-to-t from-background to-transparent absolute z-[2] bottom-0 left-0 right-0 h-[60px] w-full" />
-
-            <Link href="/status/moviesflix" className="w-fit md:text-[26px] text-[20px] md:absolute left-[10%] bottom-[10%] flex items-center gap-[10px] leading-[1em] md:opacity-[0.9] z-[3] hover:opacity-[1] transition-all duration-300">
-                View Example <ChevronRight size={24} className="mt-[2px]" />
-            </Link>
         </div>
 
+        <div className="flex flex-col gap-[10px] mb-[50px] px-[15px] md:px-[40px] w-full">
+            <h1 className="text-[20px] opacity-[0.8]">Examples</h1>
+            <PublicLagesAll />
+        </div>
+
+        <div className="flex justify-center">
+            <Link href="/login" className="w-fit mb-[60px]">
+                <Button variant="shinny" className="md:w-[140px] w-full text-[20px] md:h-[50px] h-[55px] hover:scale-[1.01]">Get Started</Button>
+            </Link>
+        </div>
 
     </div>
 }

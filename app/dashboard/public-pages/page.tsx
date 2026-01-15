@@ -1,4 +1,4 @@
-import getAllPublicPages from "@/app/actions/publicPageActions";
+import { getAllUserPublicPages } from "@/app/actions/publicPageActions";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { cn } from "@/lib/utils";
 import { ArrowUpRight, Globe, LinkIcon, Layout as ProjectIcon } from "lucide-react";
@@ -20,7 +20,7 @@ export default async function DashboardPublicPages() {
             "contents": "A Status Page is the official communication channel managed by the company itself. A 'Down Detector' is a third-party tool that aggregates user complaints. Official pages are more accurate regarding technical details, while down detectors are often faster at spotting initial widespread issues before the company acknowledges them."
         }
     ]
-    const publicPageData = await getAllPublicPages();
+    const publicPageData = await getAllUserPublicPages();
 
     if (!publicPageData || publicPageData.length === 0) {
         return (
@@ -56,7 +56,7 @@ export default async function DashboardPublicPages() {
                     <Link
                         key={index}
                         href={`/project/${page.projectId}/public-page`}
-                        className="group flex flex-col gap-[15px] p-[20px] rounded-[15px] border bg-muted/30 hover:bg-muted/50 transition-all duration-300 relative overflow-hidden"
+                        className="group flex flex-col gap-[15px] p-[20px] rounded-[15px] border bg-muted/30 hover:bg-muted/50 transition-all duration-300 relative overflow-hidden h-[145px]"
                     >
                         <div className="flex items-center gap-[12px]">
                             <div className="h-[45px] w-[45px] rounded-[10px] border bg-background flex items-center justify-center overflow-hidden flex-shrink-0">

@@ -5,12 +5,13 @@ import { EndpointType, PingLog, ProjectType, PublicPageType } from "@/lib/types"
 import { ArrowUpRight, CheckCircle, LockIcon, OctagonAlert, Server, XCircle } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
+import StatusLoading from "./loading";
 
 export const dynamicParams = true;
 
-export default async function StatusPage({ params }: { params: Promise<{ slug: string }> }) {
-    const param = await params;
-    const result = await getViewerPublicPageData(param.slug);
+async function StatusPageContent({ slug }: { slug: string }) {
+    const result = await getViewerPublicPageData(slug);
 
     if (result.error) {
         if (result.error === "status page is disabled") {
@@ -57,7 +58,7 @@ export default async function StatusPage({ params }: { params: Promise<{ slug: s
     return (
         <div className="relative overflow-hidden">
             {publicPageData.logoUrl &&
-                <Image src={publicPageData.logoUrl} className="h-full w-full absolute z-[-1] top-0 left-0 object-cover blur-[200px] dark:opacity-[0.09] opacity-[0.12]" height={45} width={45} alt="Logo" />
+                <Image src={publicPageData.logoUrl} className="h-full w-full absolute z-[-1] top-0 left-0 object-cover blur-[200px] opacity-[0.07] " height={45} width={45} alt="Logo" />
             }
 
             <div className="min-h-[100vh] flex flex-col gap-[35px] p-[20px] pb-[100px] max-w-[800px] w-full mx-auto relative z-[1]">
@@ -73,20 +74,24 @@ export default async function StatusPage({ params }: { params: Promise<{ slug: s
                     </div>
                 </div>
 
-                <div className="flex flex-col gap-[25px]">
+
+                <div className="flex flex-wrap justify-between gap-[25px]">
                     <div className="flex flex-col gap-[7px]">
                         <h3 className="text-[14px] opacity-[0.7]">Current Status</h3>
                         <div className={`flex items-center gap-[10px] px-[14px] py-[10px] rounded-[20px] border w-fit ${statusInfo.color}`}>
-                            <StatusIcon size={16} />
-                            <p className="text-[16px] leading-none">{statusInfo.label}</p>
+                            <StatusIcon size={14} />
+                            <p className="text-[12px] leading-none">{statusInfo.label}</p>
                         </div>
                     </div>
 
-                    <div className="flex flex-col leading-[1em] gap-[10px]">
+                    <div className="flex flex-col items-center leading-[1em] gap-[10px]">
                         <h3 className="text-[14px] opacity-[0.7]">Overall Latency</h3>
                         <p className="text-[24px] font-bold">{avgLatency}ms</p>
                     </div>
                 </div>
+
+                <Link href="/" className="text-[14px] opacity-[0.6] hover:opacity-100 transition-opacity text-center duration-300">Powered by Lazyping</Link>
+
 
                 <div className="flex flex-col gap-[8px]">
                     <h3 className="text-[14px] opacity-[0.7]">Services</h3>
@@ -101,13 +106,20 @@ export default async function StatusPage({ params }: { params: Promise<{ slug: s
                     </div>
                 </div>
 
-
-
-
                 <div className="mt-[20px]">
                     <ChartAreaInteractive logs={logs} hideShadows={true} />
                 </div>
             </div>
         </div>
+    )
+}
+
+export default async function StatusPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
+
+    return (
+        <Suspense fallback={<StatusLoading />}>
+            <StatusPageContent slug={slug} />
+        </Suspense>
     )
 }

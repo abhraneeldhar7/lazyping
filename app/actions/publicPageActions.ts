@@ -227,12 +227,18 @@ export async function togglePublicPageStatus(projectId: string, enabled: boolean
     return { success: true };
 }
 
-export default async function getAllPublicPages() {
+export async function getAllUserPublicPages() {
     const { userId } = await auth();
     if (!userId) throw new Error("Unauthorized");
 
     const db = await getDB();
     const projects = await getProjects();
     const publicPages = await db.collection("public-page").find({ projectId: { $in: projects.map((p) => p.projectId) } }).toArray();
+    return JSON.parse(JSON.stringify(publicPages));
+}
+
+export async function getAllPublicPages() {
+    const db = await getDB();
+    const publicPages = await db.collection("public-page").find({ enabled: true }, { limit: 4 }).toArray();
     return JSON.parse(JSON.stringify(publicPages));
 }
