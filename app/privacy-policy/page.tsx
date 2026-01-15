@@ -1,3 +1,6 @@
+import { Undo2Icon, UndoIcon } from "lucide-react";
+import Link from "next/link";
+
 export default function PrivacyPolicy() {
 
     const privacyPolicyContent = [
@@ -39,7 +42,8 @@ export default function PrivacyPolicy() {
         }
     ];
 
-    return <div >
+    return <div className="relative">
+        <Link href="/" className="flex items-center gap-[10px] text-[14px] leading-[1em] absolute top-[20px] left-[20px] z-[2]"><Undo2Icon size={16} /> Home</Link>
 
         <div className="h-[300px] flex items-center justify-center relative overflow-hidden">
             <h1 className="text-[30px]">Privacy Policy</h1>
@@ -54,6 +58,7 @@ export default function PrivacyPolicy() {
                 </div>
             ))}
             <p className="opacity-[0.6] text-[12px] text-center">Yes this is AI slop</p>
+            <Link href="/" className="flex items-center gap-[10px] text-[14px] leading-[1em] ml-auto mr-[5px]"><Undo2Icon size={16} /> Home</Link>
         </div>
     </div>;
 }

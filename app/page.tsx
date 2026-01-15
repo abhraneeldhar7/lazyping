@@ -1,6 +1,7 @@
 import ChartsThing from "@/components/landingpageComp/chartsThing";
 import LogsThing from "@/components/landingpageComp/logsThing";
 import PingingCyclingBox from "@/components/landingpageComp/pingingCyclingBox";
+import WorksWithFrameworkThing from "@/components/landingpageComp/worksWithThing";
 import { Button } from "@/components/ui/button";
 import { Marquee } from "@/components/ui/marquee";
 import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
@@ -73,11 +74,11 @@ export default function RootPage() {
             </div>
         </div>
 
-        <div className="md:h-[100vh] h-[85vh] overflow-hidden relative w-full flex flex-col pt-[50px] md:justify-center justify-between items-center gap-[50px] md:gap-[20px] px-[15px] py-[50px]">
+        <div className="relative w-full flex flex-col items-center px-[15px] py-[100px] gap-[60px]">
 
             <BGGridPattern />
             <div></div>
-            <div className="py-[30px]">
+            <div className="flex flex-col gap-[20px]">
                 <h1 className="font-[800] md:text-[50px] text-[40px] leading-[1.2em] text-center flex flex-col items-center">
                     <span className="flex gap-[15px]">
                         <span className="bg-foreground text-background px-[10px]">
@@ -101,25 +102,20 @@ export default function RootPage() {
                         </span>
                     </span>
                 </h1>
+                <p className="text-[15px] md:text-[18px] opacity-[0.8] px-[10px] text-center">We ping your servers at fixed intervals and alert you of any anomaly</p>
             </div>
 
             <Link href="/login" className="md:w-[140px] w-full">
                 <Button variant="shinny" className="text-[20px] md:h-[50px] h-[55px] hover:scale-[1.01] w-full">Activate</Button>
             </Link>
-
-
-
-
-
-
-
-
+            <Image className="w-full h-fit max-w-[800px] object-contain hidden dark:block" alt="" src="/landingpage/dashboardImgDark.png" height={600} width={600} unoptimized />
+            <Image className="w-full h-fit max-w-[800px] object-contain block dark:hidden" alt="" src="/landingpage/dashboardImgLight.png" height={600} width={600} unoptimized />
         </div>
 
         <div className="md:mx-[40px] my-[5px] relative">
             <div className="h-full w-[20px] absolute left-0 bg-gradient-to-r from-background from-[20%] to-transparent z-[2]" />
             <div className="h-full w-[20px] absolute right-0 bg-gradient-to-l from-background from-[20%] to-transparent z-[2]" />
-            <Marquee className="[--duration:25s]">
+            <Marquee className="[--duration:40s]">
                 {smallMarqueeList.map((item, index) => (
                     <div key={index} className="flex items-center gap-[15px]">
                         <p>{item}</p>
@@ -129,45 +125,26 @@ export default function RootPage() {
             </Marquee>
         </div>
 
-        <div className="flex flex-col md:flex-row mt-[100px] gap-[60px] mx-auto md:px-[40px] w-full md:justify-around max-w-[1400px]">
 
-            <div className="flex flex-1 flex-col gap-[100] max-w-[520px]">
-                <ChartsThing />
-                <LogsThing />
-            </div>
-
-            <div className="flex-1 flex flex-col relative items-center justify-between h-[400px] md:h-[500px] overflow-hidden" >
-
-
-                <Image src="/landingpage/coolDude.png" height={400} width={400} className="object-contain w-fit h-[350px] md:h-[450px] absolute bottom-0" alt="" unoptimized />
-                <div className="h-[60px] w-full absolute bottom-0 bg-gradient-to-t from-background from-[0%] to-transparent to-[100%] z-[2]" />
-
-                <div className="absolute bottom-[10%] flex flex-col gap-[20px] items-center">
-                    <p className="text-[white] mix-blend-difference text-[20px]">Works with <span className="font-[600]">every </span>framework</p>
-
-                    <div className="relative">
-                        <div className="h-full w-[40px] absolute left-0 bg-gradient-to-r from-background from-[20%] to-transparent z-[2]" />
-                        <div className="h-full w-[40px] absolute right-0 bg-gradient-to-l from-background from-[20%] to-transparent z-[2]" />
-
-                        <Marquee className="[--duration:20s] max-w-[400px] w-full">
-                            <div className="px-[10px]">
-                                <Image alt="" src="/landingpage/serverFrameworks/expressjs.png" height={40} width={40} />
-                            </div>
-                            <div className="px-[10px]">
-                                <Image alt="" src="/landingpage/serverFrameworks/fastapi.svg" height={40} width={40} />
-                            </div>
-                            <div className="px-[10px]">
-                                <Image alt="" src="/landingpage/serverFrameworks/goLogo.png" height={40} width={40} />
-                            </div>
-                            <div className="px-[10px]">
-                                <Image alt="" src="/landingpage/serverFrameworks/NestJS.svg" height={40} width={40} />
-                            </div>
-                        </Marquee>
-                    </div>
+        <div className="flex gap-[30px] flex-col max-w-[800px] w-full mx-auto mt-[50px]  md:mt-[100px]">
+            <div className="flex-1 px-[15px]">
+                <div>
+                    <h1 className="text-[24px] md:text-[34px] font-[500]">Detailed Performance Insights</h1>
+                    <p className="text-[14px] md:text-[16px]">Track and analyze your server performance with detailed insights and metrics.</p>
                 </div>
             </div>
-
+            <div className="flex-1 flex flex-col">
+                <Image src="/landingpage/chartsImgDarkTop.png" className="w-full h-fit object-contain  hidden dark:block rounded-[15px]" height={500} width={500} alt="" />
+                <Image src="/landingpage/chartsImgLightTop.png" className="w-full h-fit object-contain block dark:hidden rounded-[15px]" height={500} width={500} alt="" />
+                <div className="mt-[15px] mb-[40px]">
+                    <ChartsThing />
+                </div>
+                {/* <Image src="/landingpage/chartsImgDarkBottom.png" className="w-full h-fit object-contain  hidden dark:block" height={500} width={500} alt="" />
+                <Image src="/landingpage/chartsImgLightBottom.png" className="w-full h-fit object-contain block dark:hidden" height={500} width={500} alt="" /> */}
+                <LogsThing />
+            </div>
         </div>
+
 
         <div className="flex justify-between flex-col relative h-[53vh] md:h-[100vh] w-full mt-[80px] p-[20px]">
             <TextAnimate className="md:absolute leading-[1.2em] top-[10%] left-[5%] md:text-[70px] text-[40px] text-center font-[600]" animation="slideUp" as="h1">
@@ -176,7 +153,7 @@ export default function RootPage() {
             <TextAnimate delay={0.2} className="md:absolute bottom-[10%] right-[5%] md:text-[50px] text-[38px] text-center md:text-right font-[600] z-[3]" animation="slideUp" as="h1">
                 Never keep users guessing
             </TextAnimate>
-            <Image src="/landingpage/mockup.png" height={500} width={500} className="absolute bottom-0 h-[90%] md:h-[85%] object-bottom object-contain w-fit left-[50%] translate-x-[-50%]" alt="" unoptimized />
+            <Image src="/landingpage/mockup.png" height={500} width={500} className="absolute bottom-0 h-[90%] md:h-[85%] object-bottom object-contain w-fit left-[50%] translate-x-[-50%]" alt="" />
             <div className="bg-gradient-to-t from-background to-transparent absolute z-[2] bottom-0 left-0 right-0 h-[60px] w-full" />
         </div>
 
