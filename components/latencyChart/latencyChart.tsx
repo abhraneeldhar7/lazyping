@@ -28,7 +28,7 @@ const chartConfig = {
 } satisfies ChartConfig
 
 export function ChartAreaInteractive({ logs, hideShadows }: { logs: PingLog[], hideShadows?: boolean }) {
-    const [timeRange, setTimeRange] = React.useState("1h")
+    const [timeRange, setTimeRange] = React.useState("24h")
 
     const processedData = React.useMemo(() => {
         const now = new Date();

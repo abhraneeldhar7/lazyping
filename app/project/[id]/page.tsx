@@ -99,7 +99,7 @@ export default function ProjectPage() {
         return (
             <div className={cn("flex flex-col gap-[8px] md:flex-1 bg-muted/40 border border-border/40 hover:border-primary/20 transition-all duration-200 hover:shadow-sm rounded-[10px] px-[15px] py-[10px] min-h-[150px] md:h-[180px] overflow-hidden relative group", className)}>
                 {children}
-                <div className="h-[30px] transition-all duration-300 group-hover:blur-[32px] group-hover:h-[30px] group-hover:w-[140%] rounded-[50%] blur-[40px] w-[110%] left-[50%] translate-x-[-50%] bottom-0 absolute translate-y-[50%] bg-primary z-[-1] opacity-[0.4]" />
+                <div className="h-[30px] transition-all duration-200 group-hover:blur-[35px] group-hover:opacity-[1] group-hover:h-[30px] group-hover:w-[140%] rounded-[50%] blur-[40px] w-[150%] left-[50%] translate-x-[-50%] bottom-0 absolute translate-y-[50%] bg-primary z-[-1] dark:opacity-[0.5] opacity-[0.8]" />
             </div>
         )
     }
@@ -141,7 +141,7 @@ export default function ProjectPage() {
                         size="sm"
                         disabled={pingLoading}
                         onClick={handlePingAll}
-                        className="w-full ml-auto h-[40px]"
+                        className="w-full ml-auto h-[40px] bg-background/60"
                     >
                         {pingLoading ? <LoaderCircle className="animate-spin" /> : <RssIcon size={16} />}
                         Ping All

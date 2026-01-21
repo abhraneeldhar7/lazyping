@@ -1,6 +1,6 @@
-# LazyPing 🛰️
+# LazyPing
 
-> **Down detector, performance monitoring, and public status pages. All open source.**
+**Down detector, performance monitoring, and public status pages. All open source.**
 
 LazyPing is a robust, self-hosted monitoring solution designed to keep your services in check. Monitor endpoints, track latency, and provide transparency with beautiful public status pages.
 
@@ -17,7 +17,7 @@ LazyPing is a robust, self-hosted monitoring solution designed to keep your serv
 
 ![Dashboard Img](/public/assets/projectDashboard.png)
 
-### 🎯 Endpoint Dashboard
+### Endpoint Dashboard
 *   **Detailed summary**: Monitor individual endpoint health.
 *   **Latency chart and bar uptime**: Same as project dashboard
 *   **Custom Intervals**: Set how often you want this endpoint pinged
@@ -26,7 +26,7 @@ Trigger on-demand pings for instant verification.
 
 ![Endpoint Img](/public/assets/endpointDashboard.png)
 
-### 🌐 Public Status Page
+### Public Status Page
 *   Shows overall and detailed health of your project and endpoints
 *   **Secured**: All URLs are hidden on public pages.
 
@@ -56,8 +56,7 @@ NEXT_PUBLIC_CLERK_SIGN_UP_URL=/signup
 CLERK_WEBHOOK_SECRET=
 ```
 
-> Go to clerk dashboard > your project > Configure > Session > Custom session tokens
-> Paste this in "__session" claims:
+**Go to clerk dashboard > your project > Configure > Session > Custom session tokens > Paste this in "__session" claims:**
 ```
 {
 	"metadata": "{{user.public_metadata}}"
@@ -83,13 +82,6 @@ NEXT_PUBLIC_APP_URL=
 ```env
 NEXT_PUBLIC_APP_URL=http://localhost:3000
 ENVIRONMENT=development
-```
-
-
-
-### 3. Run
-```bash
-bun dev
 ```
 
 ---
