@@ -181,7 +181,7 @@ export default function RootPage() {
 
 
         <div id="pricing" />
-        <div className="flex gap-[25px] flex-col max-w-[800px] w-full mx-auto px-[15px]">
+        <div className="flex gap-[25px] flex-col max-w-[800px] w-full mx-auto px-[15px] mt-[60px]">
             <div className="flex-1">
                 <div>
                     <h1 className="text-[34px] font-[500]">Pricing</h1>
