@@ -13,4 +13,5 @@ jobs:
         run: |
           curl -X POST ${{ secrets.NEXT_PUBLIC_APP_URL }}/api/cron/ping-endpoints \
           -H "Authorization: Bearer ${{ secrets.HUB_CRON_SECRET }}" \
-          --max-time 10 # Fire-and-forget: Should return instantly
+          --max-time 30 \
+          --fail-with-body
