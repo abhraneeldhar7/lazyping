@@ -61,7 +61,7 @@ function Button({
       {...props}
     >
       {variant == "shinny" && <div className="absolute h-[35%] w-full rounded-[50%] bg-white left-0 top-[-15%] blur-[15px] z-[2]" />}
-      {variant == "default" && <div className="absolute dark:h-[22%] h-[18%] w-full rounded-[50%] bg-background left-0 top-[-14%] z-[2] blur-[10px] dark:blur-[10px] dark:bottom-[-27%] dark:top-auto" />}
+      {variant == "default" && <div className="absolute dark:h-[20%] h-[18%] w-full rounded-[50%] bg-background left-0 top-[-14%] z-[2] blur-[10px] dark:blur-[8px] dark:bottom-[-27%] dark:top-auto" />}
       {loading ? <LoaderCircle className="animate-spin" /> : children}
     </Comp>
   )

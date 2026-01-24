@@ -24,7 +24,7 @@ export async function ProjectDataFetcher({ projectId, children }: { projectId: s
 
     return (
         <ProjectContextProvider projectData={projectDetails} endpoints={endpoints} logs={projectLogs}>
-            <div className="mx-auto max-w-[1000px] px-[15px]">
+            <div className="mx-auto max-w-[1000px]">
                 {children}
             </div>
         </ProjectContextProvider>

@@ -31,7 +31,7 @@ export default function ProjectTabs({ projectId }: { projectId: string }) {
     const tabs = isEndpointPage ? endpointTabs : projectTabs
 
     return (
-        <div className="fixed flex items-center top-[50px] backdrop-blur-[20px] bg-background/50 w-full z-[10] py-[5px]">
+        <div className="fixed flex items-center top-[50px] left-0 backdrop-blur-[20px] bg-background/50 w-full z-[10] py-[5px]">
             <ScrollArea className="w-full h-full flex items-center justify-center">
                 <div className="flex px-[15px] items-center h-full gap-[5px] min-w-max">
                     {tabs.map((tab, index) => {
