@@ -63,13 +63,21 @@ export interface PublicPageType {
     logoUrl: string | null,
 }
 
-export interface TierLimits {
-    max_projects: number;
-    max_endpoints_per_project: number;
-    allow_global_pings: boolean;
-    allow_github_integration: boolean;
-    max_history_days: number;
-    min_ping_interval_minute: number;
-    team_members_allowed: boolean;
-    max_team_members_per_project: number;
+export interface User {
+    userId: string; // Clerk user ID
+    email: string;
+    name: string | null;
+    tier: "FREE" | "PRO" | "ENTERPRISE";
+    createdAt: Date;
+    updatedAt: Date;
+
+    // Subscription info (if using Stripe or similar)
+    subscriptionId?: string | null;
+    subscriptionStatus?: "active" | "canceled" | "past_due" | "trialing" | null;
+    subscriptionCurrentPeriodEnd?: Date | null;
+
+    // Usage tracking (optional, for analytics)
+    totalProjects?: number;
+    totalEndpoints?: number;
+    totalPings?: number;
 }

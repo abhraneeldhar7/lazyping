@@ -55,7 +55,10 @@ export default function LogsPageComponent({ logs }: { logs: PingLog[] }) {
                 {projects.length > 1 &&
                     <Popover>
                         <PopoverTrigger asChild>
-                            <Button variant="outline" className="h-[30px] w-[30px]"><ListFilter className="p-[1px]" /></Button>
+                            <Button variant="outline" className="h-[30px] text-[12px]">
+                                <ListFilter className="p-[1px]" />
+                                {selectedProjectId === "all" ? "" : projects.find(p => p.projectId === selectedProjectId)?.projectName}
+                            </Button>
                         </PopoverTrigger>
                         <PopoverContent className="flex flex-col gap-[4px] p-[4px] w-[140px]">
                             <PopoverClose asChild>

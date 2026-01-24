@@ -1,7 +1,7 @@
 "use client"
 import { EndpointType, PingLog, ProjectType } from "@/lib/types";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "./ui/sheet";
+import { Sheet, SheetClose, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "./ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { ArrowUpRight, CheckIcon, OctagonAlert, ProjectorIcon, RssIcon, SquareArrowOutUpRight } from "lucide-react";
 import { useState, useEffect } from "react";
@@ -47,12 +47,12 @@ export default function LogsTable({ logsData }: { logsData: PingLog[] }) {
             <Table>
                 <TableHeader>
                     <TableRow className="opacity-[0.6] text-[12px]">
-                        <TableHead className="min-w-[250px]">URL</TableHead>
+                        <TableHead className="w-[200px] md:w-[unset]">URL</TableHead>
                         <TableHead className="w-[100px]">Method</TableHead>
                         <TableHead className="w-[150px]">Status</TableHead>
-                        <TableHead className="w-[90px]">Code</TableHead>
-                        <TableHead className="w-[120px]">Latency</TableHead>
-                        <TableHead className="w-[120px] text-right">Time</TableHead>
+                        <TableHead className="w-[100px]">Code</TableHead>
+                        <TableHead className="w-[100px]">Latency</TableHead>
+                        <TableHead className="text-right w-[100px]">Time</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody className="text-[12px] cursor-pointer" suppressHydrationWarning>
@@ -86,9 +86,9 @@ export default function LogsTable({ logsData }: { logsData: PingLog[] }) {
                                     })()}
                                 </div>
                             </TableCell>
-                            <TableCell className="w-[100px]">{log.method}</TableCell>
+                            <TableCell>{log.method}</TableCell>
 
-                            <TableCell className="w-[150px]">
+                            <TableCell>
                                 {log.status === "OK" ?
                                     <div className="rounded-full bg-[#00ff9e]/10 border border-[#00ff9e]/30 py-[2px] pt-[3px] px-[8px] w-fit text-[11px] text-[#00ff9e] flex items-center gap-[4px]">
                                         Active <CheckIcon size={10} />
@@ -102,9 +102,9 @@ export default function LogsTable({ logsData }: { logsData: PingLog[] }) {
                                         </div>
                                 }
                             </TableCell>
-                            <TableCell className="w-[90px]">{log.statusCode}</TableCell>
-                            <TableCell className="w-[120px]">{log.latencyMs} ms</TableCell>
-                            <TableCell suppressHydrationWarning className="w-[120px] opacity-[0.7] text-right">{
+                            <TableCell>{log.statusCode}</TableCell>
+                            <TableCell>{log.latencyMs} ms</TableCell>
+                            <TableCell suppressHydrationWarning className="opacity-[0.7] text-right">{
                                 (new Date(log.timestamp)).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
                             }</TableCell>
                         </TableRow>
@@ -118,10 +118,11 @@ export default function LogsTable({ logsData }: { logsData: PingLog[] }) {
 
             <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
 
-                <SheetContent side={isMobile ? "bottom" : "right"} className="ring-0 outline-0 focus:ring-0 focus:outline-0 focus:ring-offset-0 focus:outline-offset-0 md:py-[16px] md:px-[20px] px-[20px] py-[40px]">
-                    <SheetHeader className="absolute">
-                        <SheetTitle />
-                        <SheetDescription />
+                <SheetContent side={isMobile ? "bottom" : "right"} className="ring-0 outline-0 focus:ring-0 focus:outline-0 focus:ring-offset-0 focus:outline-offset-0 md:py-[35px] md:px-[20px] px-[20px] py-[50px]">
+                    <SheetClose className="absolute top-[20px] right-[20px]" />
+                    <SheetHeader className="hidden">
+                        <SheetTitle>Log details</SheetTitle>
+                        <SheetDescription >View log details</SheetDescription>
                     </SheetHeader>
 
                     <div className="flex flex-col gap-[20px] ">
@@ -199,8 +200,6 @@ export default function LogsTable({ logsData }: { logsData: PingLog[] }) {
                                 </ScrollArea>
                             </div>
                         }
-
-
 
                         <p className="text-[12px] opacity-[0.6] text-center mt-[15px]">{selectedLog?.logSummary}</p>
                     </div>

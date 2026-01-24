@@ -37,7 +37,7 @@ export default function RootLayout({
           className={`${geistSans.variable} ${geistMono.variable} antialiased relative `}
         >
           <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            <Toaster position="top-center" />
+            <Toaster position="top-center" richColors />
             {children}
             <FooterComponent />
           </ThemeProvider>
