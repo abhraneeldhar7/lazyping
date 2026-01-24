@@ -223,7 +223,7 @@ export async function pingEndpoint(
             endpointId: endpoint.endpointId,
             url: endpoint.url,
             method: endpoint.method,
-            timestamp: new Date(Date.now() + 100),
+            timestamp: new Date(),
             latencyMs: log.latencyMs,
             status: "RESOLVED",
             statusCode: log.statusCode,

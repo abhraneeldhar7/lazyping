@@ -7,15 +7,23 @@ export async function POST(req: Request) {
         return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Fire and forget: Return immediately to prevent caller timeouts
-    // Individual ping failures are caught and logged within processScheduledPings
-    processScheduledPings().catch((err) => {
+
+    const res = await processScheduledPings().catch((err) => {
         console.error("[CRON BACKGROUND ERROR] Batch process failed:", err);
     });
 
-    // Return success immediately so GitHub Actions doesn't timeout
-    return NextResponse.json({
-        success: true,
-        message: "Ping process started in background"
-    });
+    if (res) {
+        return NextResponse.json({
+            success: true,
+            message: "Ping process started",
+            processed: res.processed,
+            pingedEndpoints: res.pingedEndpointsLog
+        });
+    }
+    else {
+        return NextResponse.json({
+            success: false,
+            message: "Ping process failed"
+        });
+    }
 }

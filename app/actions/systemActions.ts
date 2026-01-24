@@ -16,9 +16,11 @@ export async function processScheduledPings() {
 
     if (dueEndpoints.length === 0) return { processed: 0 };
 
+    let pingedEndpointsLog: string[] = []
     const pingPromises = dueEndpoints.map(async (endpoint) => {
         try {
-            await pingEndpoint(endpoint, db);
+            const log = await pingEndpoint(endpoint, db);
+            pingedEndpointsLog.push(log.url)
         } catch (error: any) {
             console.error(`[CRON ERROR] Individual ping failed for ${endpoint.endpointName} (${endpoint.endpointId}):`, error.message || error);
         }
@@ -26,5 +28,5 @@ export async function processScheduledPings() {
 
     await Promise.all(pingPromises);
 
-    return { processed: dueEndpoints.length };
+    return { processed: pingedEndpointsLog.length, pingedEndpointsLog };
 }
