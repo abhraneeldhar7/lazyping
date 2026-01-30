@@ -12,8 +12,6 @@ export default function OAuthButtons() {
     const handleOAuth = async (strategy: "oauth_google" | "oauth_github") => {
         try {
             if (!signIn || !signUp) return;
-
-            // Use the dedicated sso-callback route
             await signIn.authenticateWithRedirect({
                 strategy,
                 redirectUrl: "/sso-callback",

@@ -17,11 +17,13 @@ export async function POST(req: Request) {
     "svix-signature": headersList.get("svix-signature")!,
   }) as any;
 
-  if (evt.type === "user.created" || evt.type === "user.updated") {
-    const db = await getDB();
-    const users = db.collection<UserType>("users");
+  const db = await getDB();
+  const users = db.collection<UserType>("users");
+  const data = evt.data;
 
-    const data = evt.data;
+  if (evt.type === "user.created" || evt.type === "user.updated") {
+    const existingUser = await users.findOne({ userId: data.id });
+    const isNewUser = evt.type === "user.created" || !existingUser;
 
     await users.updateOne(
       { userId: data.id },
@@ -32,27 +34,29 @@ export async function POST(req: Request) {
           name: `${data.first_name ?? ""} ${data.last_name ?? ""}`.trim(),
           avatar: data.image_url,
           provider: data.external_accounts?.[0]?.provider || "email",
-          createdAt: new Date(),
           updatedAt: new Date(),
+          createdAt: new Date(),
           subscriptionTier: "FREE"
         }
-      }
+      },
+      { upsert: true }
     );
 
 
-    (await clerkClient()).users.updateUser(data.id, {
-      publicMetadata: {
-        onboardingCompleted: false,
-        subscriptionTier: "FREE"
-      }
-    })
+    const hasOnboardingCompleted = data.public_metadata?.onboardingCompleted !== undefined;
+
+    if (isNewUser && !hasOnboardingCompleted) {
+      const client = await clerkClient();
+      await client.users.updateUser(data.id, {
+        publicMetadata: {
+          onboardingCompleted: false,
+          subscriptionTier: "FREE"
+        }
+      });
+    }
   }
 
-
-
-
   else if (evt.type === "user.deleted") {
-    const db = await getDB();
     const userId = evt.data.id;
 
     // 1. Find all projects belonging to this user

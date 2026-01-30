@@ -11,6 +11,9 @@ const isProtectedRoute = createRouteMatcher([
 const isAuthRoute = createRouteMatcher([
     "/login(.*)",
     "/signup(.*)",
+]);
+
+const isSSORoute = createRouteMatcher([
     "/sso-callback(.*)",
 ]);
 
@@ -39,7 +42,7 @@ export default clerkMiddleware(async (auth, req) => {
     }
 
     // 🚧 Logged-in but not onboarded → force onboarding
-    if (userId && !onboardingCompleted && !isOnboardingRoute(req) && !isAuthRoute(req)) {
+    if (userId && !onboardingCompleted && !isOnboardingRoute(req) && !isAuthRoute(req) && !isSSORoute(req)) {
         return NextResponse.redirect(new URL("/welcome", req.url));
     }
 
