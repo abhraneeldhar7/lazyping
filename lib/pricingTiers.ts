@@ -15,7 +15,7 @@ export interface TierLimits {
 
 export const FREE_TIER_LIMITS: TierLimits = {
     max_projects: 5,
-    max_endpoints_per_project: 2,
+    max_endpoints_per_project: 5,
     allow_global_pings: false,
     max_history_days: 7,
     min_ping_interval_minute: 10,
@@ -28,7 +28,7 @@ export const FREE_TIER_LIMITS: TierLimits = {
 
 export const PRO_TIER_LIMITS: TierLimits = {
     max_projects: 20,
-    max_endpoints_per_project: 5,
+    max_endpoints_per_project: 10,
     allow_global_pings: true,
     max_history_days: 30,
     min_ping_interval_minute: 5,
